@@ -1,10 +1,11 @@
-import { LOGOUT, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_USER } from "./types"
+import { LOGOUT, SELECTED_USER, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_USER } from "./types"
 
 const initialState = {
     user: null,
     isAuth: false,
     authLoading: false,
-    error: null
+    error: null,
+    selectedUser: null
 }
 
 const authReducer = (state = initialState, action) => {
@@ -29,6 +30,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 error: action.payload
             } 
+        case SELECTED_USER:
+            return{
+                ...state,
+                selectedUser: action.payload
+            }
         case LOGOUT:
             return{
                 ...state,

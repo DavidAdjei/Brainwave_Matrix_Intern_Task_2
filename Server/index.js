@@ -47,7 +47,7 @@ app.use(cors(corsOptions));
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/blogs', blogRoutes);
-app.use('/api/v1/achievement', commentRoutes);
+app.use('/api/v1/comments', commentRoutes);
 
 // Jobs
 // Ensure the scheduled job runs

@@ -10,11 +10,17 @@
   .nav-right{
     display: flex;
     align-items: center;
+    gap: 1rem;
   }
   
   .logo {
     font-size: 1.5rem;
     font-weight: bold;    
+  }
+
+  .logo:hover{
+    cursor: pointer;
+    color: #bab9b9;
   }
   
   .nav-links {
@@ -108,6 +114,7 @@
     background-color: #dce1e1;
     width: 1.5rem;
     height: 1.5rem;
+    padding: 1px;
   }
   
   .menu{
@@ -152,6 +159,7 @@
     border-radius: 50%;
     padding: 0.2rem;
     background-color: #444;
+    padding: 1px;
   }
   
   .mobile-links .create,

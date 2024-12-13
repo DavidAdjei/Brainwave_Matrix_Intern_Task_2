@@ -1,8 +1,8 @@
-import { FETCH_GENERAL_BLOGS, FETCH_USER_BLOGS, SET_ERROR, SET_LOADING } from "./types";
+import { FETCH_GENERAL_BLOGS, FETCH_USER_COMMENTS, SET_ERROR, SET_LOADING } from "./types";
 
 const initialState = {
     generalBlogs: [],
-    userBlogs: [],
+    userComments: [],
     loading: false,
     error: null
 }
@@ -14,10 +14,10 @@ const blogReducer = (state = initialState, action) => {
                 ...state,
                 generalBlogs: action.payload
             }
-        case FETCH_USER_BLOGS:
+        case FETCH_USER_COMMENTS:
             return{
                 ...state,
-                userBlogs: action.payload
+                userComments: action.payload
             }
         case SET_LOADING: 
             return{

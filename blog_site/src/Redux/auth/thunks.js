@@ -1,4 +1,4 @@
-import { logout, setAuth, setAuthError, setAuthLoading, setUser } from "./actions";
+import { logout, setAuth, setAuthError, setAuthLoading, setSelectedUser, setUser } from "./actions";
 import axios from "axios";
 
 export const signUp = (formData) => async (dispatch) => {
@@ -44,6 +44,19 @@ export const checkAuth = (token) => async (dispatch) => {
       dispatch(setAuthError(message));
       dispatch(setAuthLoading(false));
     }
+};
+
+export const getUser = (id) => async (dispatch) => {
+  dispatch(setAuthLoading(true));
+  try {
+    const { data } = await axios.get('/auth/get-user/' + id);
+    dispatch(setSelectedUser(data.user))
+    dispatch(setAuthLoading(false));
+  } catch (error) {
+    const message = error.response?.data?.error || error.message || "Not Authenticated";
+    dispatch(setAuthError(message));
+    dispatch(setAuthLoading(false));
+  }
 };
 
 export const performLogout = () => async (dispatch) => {

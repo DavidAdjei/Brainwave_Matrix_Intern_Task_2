@@ -70,6 +70,7 @@
     flex-direction: column;
     padding: 20px;
     align-items: center;
+    gap: 1rem;
   }
 
   .blog-header{
@@ -116,16 +117,43 @@
   }
   .blog-post .content {
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
   }
   .blog-post h2 {
     margin-top: 0;
   }
-  .blog-post p {
-    margin: 10px 0;
-  }
   .blog-post a {
     display: inline-block;
     margin-top: 10px;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .author-image {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-icon {
+    width: 24px;
+    height: 24px;
+    color: #ccc; 
+    border-radius: 50%;
+    padding: 1px;
+    border: 1px solid #ccc;/* Placeholder color */
+  }
+
+  .author-info:hover{
+    color: #3d5aff;
   }
   
   /* Sidebar */

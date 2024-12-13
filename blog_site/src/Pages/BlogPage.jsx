@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import "./BlogPage.css";
 import { useSelector } from 'react-redux';
-import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Menu, X } from 'lucide-react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { ArrowLeft, ArrowRight, Menu, User, X } from 'lucide-react';
 
 const categories = ["Tech", "Travel", "Lifestyle", "Food"];
 const tags = [
@@ -18,6 +18,7 @@ export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [menuOpen, setMenuOpen] = useState(false);
   const blogsPerPage = 5;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const category = searchParams.get("category");
@@ -97,7 +98,18 @@ export default function BlogPage() {
                 <img src={blog.image} alt={blog.title} />
                 <div className="blog-content">
                   <h2>{blog.title}</h2>
-                  <p><small>By @{blog.author.username}</small></p>
+                  <div className="author-info" onClick={() => navigate(`/profile/${blog.author._id}`)}>
+                  {blog.author.image ? (
+                    <img
+                      src={blog.author.image}
+                      alt={blog.author.username}
+                      className="author-image"
+                    />
+                  ) : (
+                    <User className="profile-icon" />
+                  )}
+                  <p>@{blog.author.username}</p>
+                </div>
                   <p>{blog.excerpt}</p>
                   <Link to={`/blog/${blog._id}`}>Read More</Link>
                 </div>

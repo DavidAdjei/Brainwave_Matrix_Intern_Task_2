@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./BlogDetails.css";
 import { useSelector } from "react-redux";
+import { User } from "lucide-react";
 
 const BlogDetails = () => {
   const { id } = useParams();
   const {generalBlogs} = useSelector(state => state.blogs);
   const blog = generalBlogs.find((b) => b._id === id);
-
+  const navigate = useNavigate();
   const [likes, setLikes] = useState(blog?.likes?.length); // State to track likes
   const [saved, setSaved] = useState(false); // State to track if the blog is saved
   const [newComment, setNewComment] = useState(""); // State to track new comment
@@ -41,14 +42,27 @@ const BlogDetails = () => {
   return (
     <div className="blog-details">
       <div className="blog-info">
-        <div className="author-section">
-          
-
+        <div className="author-details" onClick={() => navigate(`/profile/${blog.author._id}`)}>
+          {blog.author.image ? (
+            <img
+              src={blog.author.image}
+              alt={`${blog.author.firstName} ${blog.author.lastName}`}
+              className="author-image"
+            />
+          ) : (
+            <User className="profile-icon" />
+          )}
+          <div className="author-info">
+            <p>
+              <strong>{blog.author.firstName} {blog.author.lastName}</strong>
+            </p>
+            <p>{blog.author.email}</p>
+          </div>
         </div>
-        <p><strong>Author:</strong> {blog.author.firstName} {blog.author.lastName}</p>
+
         <h1>{blog.title}</h1>
         <img src={blog.image} alt={blog.title} />
-        <p>{blog.content}</p>
+        <div dangerouslySetInnerHTML={{__html: blog.content}}/>
 
         <div className="action-buttons">
           <button onClick={handleLike} className="like-button">
@@ -73,7 +87,7 @@ const BlogDetails = () => {
 
         <h3>Comments</h3>
         {blog.comments.length > 0 ? (
-          <ul>
+          <ul com>
             {blog.comments.map((comment) => (
               <li key={comment._id}>
                 <strong>@{comment.user.username}:</strong> {comment.comment}

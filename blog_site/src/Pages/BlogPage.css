@@ -112,7 +112,7 @@
   
   .blog-item img {
     width: 150px;
-    height: 100px;
+    height: 120px;
     object-fit: cover;
     border-radius: 8px;
   }
@@ -134,6 +134,15 @@
   .blog-content a {
     color: #007BFF;
     text-decoration: none;
+  }
+
+  .blog-content .author-info{
+    align-items: flex-start;
+  }
+
+  .blog-content .profile-icon{
+    width: 24px;
+    height: 24px;
   }
   
   .blog-content a:hover {

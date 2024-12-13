@@ -1,19 +1,19 @@
 import React from 'react'
 import "./HomePage.css"
-import { useSelector } from 'react-redux'
+import {  useSelector } from 'react-redux'
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, User } from 'lucide-react';
 
 export default function HomePage() {
   const {isAuth} = useSelector(state => state.auth);
   const navigate = useNavigate();
   const {generalBlogs} = useSelector(state => state.blogs);
-
   const blogs = generalBlogs.slice(0,4);
   const onButtonClick = (page) => {
     navigate(`/${page}`)
   }
+
   return (
     <div>
       <section className="hero-container">
@@ -42,7 +42,18 @@ export default function HomePage() {
               <img src={blog.image} alt={blog.title} />
               <div className="content">
                 <h2>{blog.title}</h2>
-                <p><small>By @{blog.author.username}</small></p>
+                <div className="author-info" onClick={() => onButtonClick(`profile/${blog.author._id}`)}>
+                  {blog.author.image ? (
+                    <img
+                      src={blog.author.image}
+                      alt={blog.author.username}
+                      className="author-image"
+                    />
+                  ) : (
+                    <User className="profile-icon" />
+                  )}
+                  <p>@{blog.author.username}</p>
+                </div>
                 <a href={`/blog/${blog._id}`}>Read More</a>
               </div>
             </div>

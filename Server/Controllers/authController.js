@@ -95,4 +95,23 @@ const isAuth = async (req, res) => {
 };
 
 
-export { register, login, googleAuth, isAuth };
+const getUser = async (req, res) => {
+    try{
+        const userId = req.params.id;
+        if(!userId) throw new Error("Unauthorized");
+
+        const user = await User.findById(userId);
+
+        if (!user)throw new Error("User not found");
+
+        user.password = undefined;
+        user.secret = undefined;
+        
+        return res.json({ user });
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+}
+
+export { register, login, googleAuth, isAuth, getUser };

@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkAuth } from './Redux/auth/thunks';
 import { fetchAllBlogs } from './Redux/blogs/thunks';
 import BlogPage from './Pages/BlogPage';
+import ProfilePage from './Pages/ProfilePage';
+import CreateBlogPage from './Pages/CreateBlogPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +40,8 @@ function App() {
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path='/signup' element={isAuth ? <Navigate to="/"/> : <SignUp/>}/>
         <Route path='/login' element={!isAuth ? <Login/> : <Navigate to="/"/> }/>
+        <Route path='/profile/:id' element={<ProfilePage/>}/>
+        <Route path="/new" element={isAuth ? <CreateBlogPage/> : <Navigate to="/login"/>}/>
       </Routes>
       <footer>
         <p>&copy; 2024 My Blog. All rights reserved.</p>

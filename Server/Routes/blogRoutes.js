@@ -5,19 +5,23 @@ import {
     deleteBlog, 
     fetchBlogs, 
     fetchUserBlogs, 
-    updateBlog 
+    updateBlog, 
+    uploadImage
 } from "../Controllers/blogController.js";
+import { upload } from "../Utils/uploads.js";
 
 const router = express.Router();
 
 router.get("/", fetchBlogs);
 
-router.get("/user", auth, fetchUserBlogs);
+router.get("/user/:id", fetchUserBlogs);
 
 router.post("/", auth, addBlog);
 
 router.put("/:id", auth, updateBlog);
 
 router.delete("/:id", auth, deleteBlog);
+
+router.post("/upload", upload.single("image"), uploadImage);
 
 export default router;

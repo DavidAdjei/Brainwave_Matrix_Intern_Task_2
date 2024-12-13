@@ -1,4 +1,4 @@
-import { LOGOUT, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_USER } from "./types";
+import { LOGOUT, SELECTED_USER, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_USER } from "./types";
 
 export const setAuthLoading = (loading) => ({
     type: SET_AUTH_LOADING,
@@ -22,4 +22,9 @@ export const setAuthError = (error) => ({
 
 export const logout = () => ({
     type: LOGOUT
+})
+
+export const setSelectedUser = (user) => ({
+    type: SELECTED_USER,
+    payload: user
 })

@@ -33,12 +33,13 @@ export default function NavBar() {
   },[location]);
 
   const onButtonClick = (page) => {
+    setMenuOpen(false);
     navigate(`/${page}`)
   }
   return (
       <header className="navbar">
         <div className='nav-right'>
-          <div className="logo">Blogr</div>
+          <div className="logo" onClick={()=> onButtonClick("")}>Blogr</div>
           <ul className="nav-links">
             <li className={currentPage === "Home" && "active"}><NavLink to="/">Home</NavLink></li>
             <li className={currentPage === "Blogs" && "active"}><NavLink to="/blogs">Explore</NavLink></li>
@@ -54,7 +55,7 @@ export default function NavBar() {
           ) : (
             <div className='auth-buttons'>
               <button className='create' onClick={() => onButtonClick('new')}>Create Blog</button>
-              <div className='profile' onClick={() => onButtonClick('profile')}>
+              <div className='profile' onClick={() => onButtonClick(`profile/${user._id}`)}>
                 <UserRound size={20}/>
                 <p>{user?.username}</p>
               </div>
@@ -77,9 +78,9 @@ export default function NavBar() {
             {isAuth && (
               <button className='create' onClick={() => onButtonClick('new')}>Create Blog</button>
             )}
-            <li className={currentPage === "Home" && "active"}><NavLink to="/">Home</NavLink></li>
-            <li className={currentPage === "Blogs" && "active"}><NavLink to="/blogs">Explore</NavLink></li>
-            <li className={currentPage === "About" && "active"}><NavLink to="/about">About</NavLink></li>
+            <li className={currentPage === "Home" && "active"}><NavLink onClick={() => onButtonClick('')} to="/">Home</NavLink></li>
+            <li className={currentPage === "Blogs" && "active"}><NavLink onClick={() => onButtonClick('blogs')} to="/blogs">Explore</NavLink></li>
+            <li className={currentPage === "About" && "active"}><NavLink onClick={() => onButtonClick('about')} to="/about">About</NavLink></li>
             {!isAuth && (
               <div className="mobile-buttons">
                 <button className="login" onClick={() => onButtonClick("login")}>Login</button>
