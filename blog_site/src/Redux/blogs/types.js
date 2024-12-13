@@ -1,0 +1,4 @@
+export const FETCH_GENERAL_BLOGS = "FETCH_GENERAL_BLOGS";
+export const FETCH_USER_BLOGS = "FETCH_USER_BLOGS";
+export const SET_LOADING = "SET_LOADING";
+export const SET_ERROR = "SET_ERROR";

@@ -1,0 +1,25 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(188deg, #f4f4f9, #66c6ef );
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Footer */
+footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  margin-top: 20px;
+}
