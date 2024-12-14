@@ -1,43 +1,104 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./BlogDetails.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { User } from "lucide-react";
+import { likeBlog, newComment, saveBlog } from "../Redux/blogs/thunks";
+import axios from "axios";
 
 const BlogDetails = () => {
   const { id } = useParams();
-  const {generalBlogs} = useSelector(state => state.blogs);
-  const blog = generalBlogs.find((b) => b._id === id);
+  const {user} = useSelector(state => state.auth);
+  const [blog, setBlog] = useState(null);
+  const [saved, setSaved] = useState(false);
   const navigate = useNavigate();
-  const [likes, setLikes] = useState(blog?.likes?.length); // State to track likes
-  const [saved, setSaved] = useState(false); // State to track if the blog is saved
-  const [newComment, setNewComment] = useState(""); // State to track new comment
-  const [comments, setComments] = useState(blog?.comments || []); // State for comments
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [comment, setComment] = useState("");
+  const [sent, setSent] = useState(false); 
 
-  if (!blog) {
-    return <h2>Blog not found</h2>;
+  useEffect(() => {
+    getBlog(id).then((res) => {
+      console.log({res});
+      setBlog(res);
+    }).catch((err)=> {
+      console.log(err);
+    }).finally(() => {
+      setLoading(false);
+      setSent(false);
+    })
+  },[id, sent])
+
+  const getBlog = async (id) => {
+    return new Promise( async (resolve, reject) => {
+      try{
+        const {data} = await axios.get(`/blogs/${id}`);
+        resolve(data.blog);
+      }catch(err){
+        reject(err.response?.data.error || err.message)
+      }
+    })
+  }
+
+  const getUserSaves = async (token) => {
+    return new Promise( async (resolve, reject) => {
+      try{
+        const { data } = await axios.get('/auth/get-user-saved', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        resolve(data.user);
+      }catch(err){
+        reject(err.response?.data.error || err.message)
+      }
+    })
   }
 
   const handleLike = () => {
-    setLikes(likes + 1);
+    const token = localStorage.getItem("userToken");
+    if(token){
+      dispatch(likeBlog(id,token)).then(() => {
+        setSent(true);
+      })
+    }
   };
 
   const handleSave = () => {
+    const token = localStorage.getItem("userToken");
+    if(token){
+      dispatch(saveBlog(id, token)).then(() => {
+
+      })
+    }
     setSaved(!saved);
   };
 
   const handleComment = () => {
-    if (newComment.trim()) {
-      const comment = {
-        id: Date.now().toString(),
-        user: "Anonymous", // Replace with the logged-in user's name if available
-        comment: newComment,
-        timestamp: new Date().toISOString(),
-      };
-      // setComments([...comments, comment]);
-      setNewComment("");
+    if (comment.trim()) {
+      const token = localStorage.getItem("userToken");
+      if(token){
+        dispatch(newComment(comment, blog._id, token)).then(() =>{
+          setSent(true);
+        })
+      }else{
+        alert("You need to login first")
+      }
+      setComment("");
     }
   };
+
+  if(loading){
+    return(
+      <div>
+        Loading
+      </div>
+    )
+  }
+
+  if (!blog) {
+    return <h2>Blog not found</h2>;
+  }
 
   return (
     <div className="blog-details">
@@ -66,7 +127,7 @@ const BlogDetails = () => {
 
         <div className="action-buttons">
           <button onClick={handleLike} className="like-button">
-            👍 Like {likes > 0 && `(${likes})`}
+            👍 Like {blog.likes.length > 0 && `(${blog.likes.length})`}
           </button>
           <button onClick={handleSave} className="save-button">
             {saved ? "💾 Saved" : "💾 Save"}
@@ -76,8 +137,8 @@ const BlogDetails = () => {
       <div className="blog-comments">
         <div className="comment-section">
           <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
             placeholder="Add a comment..."
           />
           <button onClick={handleComment} className="comment-button">
@@ -90,7 +151,7 @@ const BlogDetails = () => {
           <ul com>
             {blog.comments.map((comment) => (
               <li key={comment._id}>
-                <strong>@{comment.user.username}:</strong> {comment.comment}
+                <strong onClick={() => navigate(`/profile/${comment.user._id}`)}>@{comment.user.username}:</strong> {comment.comment}
                 <br />
                 <small>{new Date(comment.createdAt).toLocaleString()}</small>
               </li>

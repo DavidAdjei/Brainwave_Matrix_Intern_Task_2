@@ -4,9 +4,11 @@ import {
     addBlog, 
     deleteBlog, 
     fetchBlogs, 
-    fetchUserBlogs, 
+    likeBlog, 
     updateBlog, 
-    uploadImage
+    uploadImage,
+    getBlog,
+    saveBlog
 } from "../Controllers/blogController.js";
 import { upload } from "../Utils/uploads.js";
 
@@ -14,9 +16,13 @@ const router = express.Router();
 
 router.get("/", fetchBlogs);
 
-router.get("/user/:id", fetchUserBlogs);
+router.get("/:id", getBlog);
 
 router.post("/", auth, addBlog);
+
+router.put("/like/:id", auth, likeBlog);
+
+router.put("/save/:id", auth, saveBlog);
 
 router.put("/:id", auth, updateBlog);
 

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Blog from "../Models/blogModel.js";
+import User from "../Models/userModel.js"
 import DOMPurify from "dompurify";
 import {JSDOM} from "jsdom";
 import { uploadSingleImage } from "../Utils/uploads.js";
@@ -55,32 +56,28 @@ const fetchBlogs = async (req, res) => {
     }
 };
 
-const fetchUserBlogs = async (req, res) => {
+const getBlog = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const filters = req.query || {};
-        const query = {author: new mongoose.Types.ObjectId(userId), ...filters};
-        console.log({query});
-        if (!userId) throw new Error("User ID is missing.");
-        const blogs = await Blog.find({query}).populate({
+        const {id} = req.params;
+        const blog = await Blog.findById(id).populate({
             path: 'author',
-            select: 'firstName lastName email image _id',
+            select: 'firstName lastName email image _id username',
         })
         .populate({
             path: 'comments',
             populate: {
               path: 'user',
-              select: 'firstName lastName email image _id',
+              select: 'firstName lastName email image _id username',
             },
         });
 
-        console.log({blogs});
-        return res.status(200).json({ blogs });
+        return res.status(200).json({ blog });
     } catch (error) {
         console.error(error);
         return res.status(400).json({ error: error.message });
     }
 };
+
 
 const updateBlog = async (req, res) => {
     try {
@@ -139,4 +136,56 @@ const uploadImage = async (req, res) => {
     }
 }
 
-export { addBlog, fetchBlogs, fetchUserBlogs, updateBlog, deleteBlog, uploadImage };
+const likeBlog = async (req, res) => {
+    try {
+        const { userId } = req;
+        const { id } = req.params;
+        const blog = await Blog.findById(id);
+        if (!blog) {
+            return res.status(404).json({ error: "Blog not found" });
+        }
+        if (blog.likes.includes(userId)) {
+            blog.likes = blog.likes.filter((id) => id.toString() !== userId);            
+            await blog.save();
+            return res.status(200).json({ 
+                message: "Blog unliked successfully"
+            });
+        } else {
+            blog.likes.unshift(userId);
+            await blog.save();
+            return res.status(200).json({ 
+                message: "Blog liked successfully"
+            });
+        }
+    } catch (err) {
+        console.error("Error liking blog:", err);
+        res.status(500).json({ error: "An error occurred while liking the blog" });
+    }
+};
+
+const saveBlog = async (req, res) => {
+    try{
+        const { userId } = req;
+        const { id } = req.params;
+        const blog = await Blog.findById(id);
+        if (!blog) throw new Error("Blog not found");
+        const user = await User.findById(userId);
+        if (!user) throw new Error("User not found");
+
+        if(user.savedBlogs.includes(id)){
+            const savedBlogs = user.savedBlogs.filter(blogId => blogId !== id); 
+            user.savedBlogs = savedBlogs;
+        }else{
+            user.savedBlogs.unshift(id);
+        }
+
+        await user.save();
+
+        return res.status(200).json({ message: "Successful"});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+}
+
+export { addBlog, fetchBlogs, getBlog, updateBlog, deleteBlog, uploadImage, likeBlog, saveBlog};

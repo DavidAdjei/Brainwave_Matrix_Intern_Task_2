@@ -41,9 +41,15 @@ export default function NavBar() {
         <div className='nav-right'>
           <div className="logo" onClick={()=> onButtonClick("")}>Blogr</div>
           <ul className="nav-links">
-            <li className={currentPage === "Home" && "active"}><NavLink to="/">Home</NavLink></li>
-            <li className={currentPage === "Blogs" && "active"}><NavLink to="/blogs">Explore</NavLink></li>
-            <li className={currentPage === "About" && "active"}><NavLink to="/about">About</NavLink></li>
+            <li className={currentPage === "Home" ? "active" : undefined}>
+              <NavLink to="/">Home</NavLink>
+            </li>
+            <li className={currentPage === "Blogs" ? "active" : undefined}>
+              <NavLink to="/blogs">Explore</NavLink>
+            </li>
+            <li className={currentPage === "About" ? "active" : undefined}>
+              <NavLink to="/about">About</NavLink>
+            </li>
           </ul>
         </div>
         {
@@ -78,9 +84,15 @@ export default function NavBar() {
             {isAuth && (
               <button className='create' onClick={() => onButtonClick('new')}>Create Blog</button>
             )}
-            <li className={currentPage === "Home" && "active"}><NavLink onClick={() => onButtonClick('')} to="/">Home</NavLink></li>
-            <li className={currentPage === "Blogs" && "active"}><NavLink onClick={() => onButtonClick('blogs')} to="/blogs">Explore</NavLink></li>
-            <li className={currentPage === "About" && "active"}><NavLink onClick={() => onButtonClick('about')} to="/about">About</NavLink></li>
+            <li className={currentPage === "Home" ? "active" : undefined}>
+              <NavLink onClick={() => onButtonClick('')} to="/">Home</NavLink>
+            </li>
+            <li className={currentPage === "Blogs" ? "active" : undefined}>
+              <NavLink onClick={() => onButtonClick('blogs')} to="/blogs">Explore</NavLink>
+            </li>
+            <li className={currentPage === "About" ? "active" : undefined}>
+              <NavLink onClick={() => onButtonClick('about')} to="/about">About</NavLink>
+            </li>
             {!isAuth && (
               <div className="mobile-buttons">
                 <button className="login" onClick={() => onButtonClick("login")}>Login</button>

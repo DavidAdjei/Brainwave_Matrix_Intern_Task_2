@@ -31,6 +31,56 @@ export const createBlog = (blog, token) => async (dispatch) => {
     }
   };
 
+  export const newComment = (comment, blog, token) => async (dispatch) => {
+    try {
+      dispatch(setBlogLoading(true)); 
+      await axios.post(`/comments/${blog}`, {comment}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(fetchAllBlogs()); 
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      dispatch(setBlogError(message)); 
+    } finally {
+      dispatch(setBlogLoading(false)); 
+    }
+  };
+
+  export const likeBlog = ( blog, token) => async (dispatch) => {
+    try {
+      dispatch(setBlogLoading(true)); 
+      await axios.put(`/blogs/like/${blog}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(fetchAllBlogs()); 
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      dispatch(setBlogError(message)); 
+    } finally {
+      dispatch(setBlogLoading(false)); 
+    }
+  };
+
+  export const saveBlog = ( blog, token) => async (dispatch) => {
+    try {
+      dispatch(setBlogLoading(true)); 
+      await axios.put(`/blogs/save/${blog}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      dispatch(setBlogError(message)); 
+    } finally {
+      dispatch(setBlogLoading(false)); 
+    }
+  };
+
 export const fetchUserComments = (id) => async (dispatch) => {
     dispatch(setBlogLoading(true))
     try{

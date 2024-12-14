@@ -37,6 +37,12 @@ const UserSchema = new Schema({
         type: Date, 
         default: null
     },
+    savedBlogs: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Blog',
+        },
+    ],
 }, {
     timestamps: true, 
 });

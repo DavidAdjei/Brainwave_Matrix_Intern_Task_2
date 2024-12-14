@@ -59,6 +59,18 @@ export const getUser = (id) => async (dispatch) => {
   }
 };
 
+export const getUserSaved = () => async (dispatch) =>{
+  dispatch(setAuthLoading(true));
+  try {
+    const { data } = await axios.get('/auth/get-user-saved');
+    dispatch(setAuthLoading(false));
+  } catch (error) {
+    const message = error.response?.data?.error || error.message || "Not Authenticated";
+    dispatch(setAuthError(message));
+    dispatch(setAuthLoading(false));
+  }
+}
+
 export const performLogout = () => async (dispatch) => {
     try {
       localStorage.removeItem('userToken'); 
