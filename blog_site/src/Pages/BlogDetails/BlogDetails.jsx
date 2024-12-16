@@ -3,15 +3,15 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "./BlogDetails.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Edit, User } from "lucide-react";
-import { likeBlog, newComment, saveBlog } from "../Redux/blogs/thunks";
+import { likeBlog, newComment, saveBlog } from "../../Redux/blogs/thunks";
 import axios from "axios";
-import Loader from "../features/Loader";
+import Loader from "../../features/Loader";
 
 const BlogDetails = () => {
   const { id } = useParams();
   const {user} = useSelector(state => state.auth);
   const [blog, setBlog] = useState(null);
-  const [saved] = useState(user?.savedBlogs.some(blog => blog._id === id));
+  const [saved, setSaved] = useState(user?.savedBlogs.some(blog => blog._id === id));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,6 @@ const BlogDetails = () => {
 
   useEffect(() => {
     getBlog(id).then((res) => {
-      console.log({res});
       setBlog(res);
     }).catch((err)=> {
       console.log(err);
@@ -29,6 +28,7 @@ const BlogDetails = () => {
       setSent(false);
     })
   },[id, sent])
+  
 
   const getBlog = async (id) => {
     return new Promise( async (resolve, reject) => {
@@ -53,7 +53,9 @@ const BlogDetails = () => {
   const handleSave = () => {
     const token = localStorage.getItem("userToken");
     if(token){
-      dispatch(saveBlog(id, token))
+      dispatch(saveBlog(id, token)).then(() => {
+        setSaved(!saved)
+      })
     }
   };
 
@@ -116,7 +118,7 @@ const BlogDetails = () => {
             )}
           </div>  
         </h1>
-        <img src={blog.image} alt={blog.title} />
+        <img className="blog-image" src={blog.image} alt={blog.title} />
         <div dangerouslySetInnerHTML={{__html: blog.content}}/>
 
         <div className="action-buttons">

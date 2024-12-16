@@ -1,8 +1,34 @@
 import jwt from 'jsonwebtoken';
+import nodemailer from "nodemailer";
 const {sign} = jwt;
 export function generateToken(user) {
     const token = sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'} );
     return token
+}
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+});
+
+export const sendEmail = async (receiver, user, subject, message) => {
+    const mailOptions = {
+        from: user.email,
+        to: receiver,
+        subject: subject,
+        text: message
+    };
+    
+    try {
+        await transporter.sendMail(mailOptions);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 }
 
 

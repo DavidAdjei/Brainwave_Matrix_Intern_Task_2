@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Blog from "../Models/blogModel.js";
 import User from "../Models/userModel.js"
 import DOMPurify from "dompurify";
-import {JSDOM} from "jsdom";
+import { JSDOM } from "jsdom";
 import { uploadSingleImage } from "../Utils/uploads.js";
 
 const addBlog = async (req, res) => {
@@ -18,9 +18,9 @@ const addBlog = async (req, res) => {
             throw new Error("Missing blog content or author information.");
         }
 
-        await Blog.create({ 
-            title: blog.title, 
-            category: blog.category, 
+        await Blog.create({
+            title: blog.title,
+            category: blog.category,
             tags: blog.tags,
             content: sanitizedHtml,
             author,
@@ -37,13 +37,13 @@ const addBlog = async (req, res) => {
 const editBlog = async (req, res) => {
     try {
         const { blog } = req.body;
-        const {userId} = req;
-        const {id} = req.params;
+        const { userId } = req;
+        const { id } = req.params;
         const existingBlog = await Blog.findById(id);
-        if(!existingBlog){
+        if (!existingBlog) {
             throw new Error("Blog not found");
         }
-        if(existingBlog.author._id.toString() !== userId.toString()){
+        if (existingBlog.author._id.toString() !== userId.toString()) {
             throw new Error("Blog doesn't belong to you");
         }
 
@@ -51,7 +51,7 @@ const editBlog = async (req, res) => {
         const purify = DOMPurify(window);
 
         const sanitizedHtml = purify.sanitize(blog.content);
-        blog.content = sanitizedHtml;        
+        blog.content = sanitizedHtml;
         await Blog.findByIdAndUpdate(id, blog);
 
         return res.status(201).json({ message: "Blog updated successfully." });
@@ -64,17 +64,17 @@ const editBlog = async (req, res) => {
 const fetchBlogs = async (req, res) => {
     try {
         const filters = req.query || {};
-        const blogs = await Blog.find({ ...filters }).sort({createdAt: -1}).populate({
+        const blogs = await Blog.find({ ...filters }).sort({ createdAt: -1 }).populate({
             path: 'author',
             select: 'firstName lastName email image _id username',
         })
-        .populate({
-            path: 'comments',
-            populate: {
-              path: 'user',
-              select: 'firstName lastName email image _id username',
-            },
-        });
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'user',
+                    select: 'firstName lastName email image _id username',
+                },
+            });
 
         return res.status(200).json({ blogs });
     } catch (error) {
@@ -85,18 +85,18 @@ const fetchBlogs = async (req, res) => {
 
 const getBlog = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const blog = await Blog.findById(id).populate({
             path: 'author',
             select: 'firstName lastName email image _id username',
         })
-        .populate({
-            path: 'comments',
-            populate: {
-              path: 'user',
-              select: 'firstName lastName email image _id username',
-            },
-        });
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'user',
+                    select: 'firstName lastName email image _id username',
+                },
+            });
 
         return res.status(200).json({ blog });
     } catch (error) {
@@ -128,10 +128,10 @@ const uploadImage = async (req, res) => {
         }
         const { imageUrl } = await uploadSingleImage(file);
         if (!imageUrl) {
-            return res.status(404).json({error: 'Failed to upload image'});
+            return res.status(404).json({ error: 'Failed to upload image' });
         };
-        console.log({imageUrl})
-        return res.status(200).json({ imageUrl});
+        console.log({ imageUrl })
+        return res.status(200).json({ imageUrl });
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: err.message });
@@ -147,15 +147,15 @@ const likeBlog = async (req, res) => {
             return res.status(404).json({ error: "Blog not found" });
         }
         if (blog.likes.includes(userId)) {
-            blog.likes = blog.likes.filter((id) => id.toString() !== userId);            
+            blog.likes = blog.likes.filter((id) => id.toString() !== userId);
             await blog.save();
-            return res.status(200).json({ 
+            return res.status(200).json({
                 message: "Blog unliked successfully"
             });
         } else {
             blog.likes.unshift(userId);
             await blog.save();
-            return res.status(200).json({ 
+            return res.status(200).json({
                 message: "Blog liked successfully"
             });
         }
@@ -166,21 +166,21 @@ const likeBlog = async (req, res) => {
 };
 
 const saveBlog = async (req, res) => {
-    try{
+    try {
         const { userId } = req;
         const { id } = req.params;
         const blog = await Blog.findById(id);
         if (!blog) throw new Error("Blog not found");
         const user = await User.findById(userId);
         if (!user) throw new Error("User not found");
-        
-        if(user.savedBlogs.includes(id)){
+
+        if (user.savedBlogs.includes(id)) {
             console.log("Already saved")
-            var savedBlogs = user.savedBlogs.filter(blogId => blogId.toString() !== id.toString()); 
-            console.log({savedBlogs})
+            var savedBlogs = user.savedBlogs.filter(blogId => blogId.toString() !== id.toString());
+            console.log({ savedBlogs })
             user.savedBlogs = savedBlogs;
             await user.save();
-        }else{
+        } else {
             console.log("Now saving")
             user.savedBlogs.unshift(id);
             await user.save();
@@ -189,11 +189,11 @@ const saveBlog = async (req, res) => {
         user.password = undefined;
         user.secret = undefined;
 
-        return res.status(200).json({ message: "Successful", user});
-    }catch(err){
+        return res.status(200).json({ message: "Successful", user });
+    } catch (err) {
         console.log(err);
         res.status(500).json({ error: err.message });
     }
 }
 
-export { addBlog, editBlog, fetchBlogs, getBlog, deleteBlog, uploadImage, likeBlog, saveBlog};
+export { addBlog, editBlog, fetchBlogs, getBlog, deleteBlog, uploadImage, likeBlog, saveBlog };

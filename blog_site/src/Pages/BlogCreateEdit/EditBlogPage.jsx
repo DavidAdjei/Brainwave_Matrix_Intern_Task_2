@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateBlog, fetchBlogById } from "../Redux/blogs/thunks";
+import { updateBlog } from "../../Redux/blogs/thunks";
 import axios from "axios";
-import { tags as availableTags, categories } from "../Utils/utils";
+import { tags as availableTags, categories } from "../../Utils/utils";
 
 const EditBlogPage = () => {
   const { blogId } = useParams();

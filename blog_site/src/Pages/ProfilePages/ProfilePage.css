@@ -4,6 +4,9 @@
     min-height: 90vh;
     max-width: 1000px;
     margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
@@ -13,7 +16,6 @@
   /* Profile Section */
   .profile-section {
     text-align: center;
-    margin-bottom: 30px;
     position: relative;
   }
   
@@ -65,6 +67,22 @@
   .dropdown-menu button:hover {
     background: #f0f0f0;
   }
+
+  .follow{
+    outline: none;
+    background-color: #007bff;
+    color: white;
+    padding: .7rem;
+    width: 7rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+
+  .follow:hover{
+    background-color: #0a3059;
+  }
   
   .profile-picture {
     border-radius: 50%;
@@ -72,24 +90,6 @@
     height: 150px;
     object-fit: cover;
     border: 3px solid #007bff;
-  }
-  
-  .edit-profile-btn {
-    position: absolute;
-    top: 10px;
-    right: calc(50% - 75px); /* Center relative to profile picture */
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .edit-profile-btn:hover {
-    background-color: #0056b3;
   }
   
   .profile-name {
@@ -112,6 +112,8 @@
   .tabs {
     display: flex;
     border-bottom: 2px solid #ccc;
+    overflow-x: auto;
+    gap: .4rem;
   }
   
   .tab {
@@ -123,6 +125,7 @@
     border: none;
     outline: none;
     font-size: 16px;
+    width: fit-content;
   }
   
   .tab.active {
@@ -251,3 +254,47 @@
     margin: 5px 0 0 0;
     line-height: 1.4;
   }
+
+  .user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .user-list li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .user-list li:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .user-list .user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+  }
+  
+  .user-list .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-list .user-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .user-list .user-details {
+    font-size: 14px;
+    color: #757575;
+  }
+  

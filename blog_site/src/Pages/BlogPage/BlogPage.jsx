@@ -3,14 +3,17 @@ import "./BlogPage.css";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Menu, User, X } from 'lucide-react';
-import {tags, categories} from "../Utils/utils";
+import { tags, categories } from "../../Utils/utils";
 
 export default function BlogPage() {
   const { generalBlogs } = useSelector(state => state.blogs);
+  const { isAuth, user } = useSelector(state => state.auth); // Assuming `auth` state has login info
   const [searchParams] = useSearchParams();
+  const [blogs, setBlogs] = useState(generalBlogs)
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("discover");
   const blogsPerPage = 5;
   const navigate = useNavigate();
 
@@ -24,7 +27,7 @@ export default function BlogPage() {
     }
   }, [searchParams]);
 
-  const filteredBlogs = generalBlogs.filter(blog =>
+  const filteredBlogs = blogs.filter(blog =>
     blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     blog.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
     blog.category.toLowerCase() === searchQuery.toLowerCase()
@@ -45,6 +48,25 @@ export default function BlogPage() {
       return prevPage;
     });
   };
+
+  function getBlogsFromFollowing(blogs, following) {
+    const followingIds = following.map(user => user._id);
+  
+    const filteredBlogs = blogs.filter(blog => followingIds.includes(blog.author._id));
+  
+    return filteredBlogs;
+  }
+
+  const handleSwitch = (tab) => {
+    if(tab === "discover") {
+      setBlogs(generalBlogs);
+      setActiveTab("discover");
+    }else{
+      const newBlogs = getBlogsFromFollowing(generalBlogs, user.following);
+      setBlogs(newBlogs);
+      setActiveTab("following");
+    }
+  } 
 
   return (
     <div className="blog-page">
@@ -84,36 +106,60 @@ export default function BlogPage() {
       </aside>
 
       <main className="blog-list">
-        <h1>All Blogs</h1>
-        <div className="blogs">
-          {displayedBlogs.length > 0 ? (
-            displayedBlogs.map(blog => (
-              <div key={blog.id} className="blog-item">
-                <img src={blog.image} alt={blog.title} />
-                <div className="blog-content">
-                  <h2>{blog.title}</h2>
-                  <div className="author-info" onClick={() => navigate(`/profile/${blog.author._id}`)}>
-                  {blog.author.image ? (
-                    <img
-                      src={blog.author.image}
-                      alt={blog.author.username}
-                      className="author-image"
-                    />
-                  ) : (
-                    <User className="profile-icon" />
-                  )}
-                  <p>@{blog.author.username}</p>
-                </div>
-                  <p>{blog.excerpt}</p>
-                  <Link to={`/blog/${blog._id}`}>Read More</Link>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>No blogs found</p>
+        {/* Tabs */}
+        <div className="tabs">
+          <button
+            className={`tab ${activeTab === "discover" ? "active" : ""}`}
+            onClick={() => handleSwitch("discover")}
+          >
+            Discover
+          </button>
+          {isAuth && (
+            <button
+              className={`tab ${activeTab === "following" ? "active" : ""}`}
+              onClick={() => handleSwitch("following")}
+            >
+              Following
+            </button>
           )}
         </div>
 
+        {/* Tab Content */}
+        <div className="tab-content">
+            <div className="blogs">
+              {activeTab === "following"  && (
+                <h2>Blogs from Users You Follow</h2>
+              )}
+              {displayedBlogs.length > 0 ? (
+                displayedBlogs.map(blog => (
+                  <div key={blog._id} className="blog-item">
+                    <img src={blog.image} alt={blog.title} />
+                    <div className="blog-content">
+                      <h2>{blog.title}</h2>
+                      <div className="author-info" onClick={() => navigate(`/profile/${blog.author._id}`)}>
+                        {blog.author.image ? (
+                          <img
+                            src={blog.author.image}
+                            alt={blog.author.username}
+                            className="author-image"
+                          />
+                        ) : (
+                          <User className="profile-icon" />
+                        )}
+                        <p>{user._id === blog.author._id ? "You" : `@${blog.author.username}`}</p>
+                      </div>
+                      <p>{blog.excerpt}</p>
+                      <Link to={`/blog/${blog._id}`}>Read More</Link>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>{activeTab === "discover" ?" No blogs found" : "You are not following anyone with blogs yet."}</p>
+              )}
+            </div>
+        </div>
+
+        {/* Pagination */}
         <div className="pagination">
           <button onClick={() => handlePageChange('prev')} disabled={currentPage === 1}>
             <ArrowLeft size={16} /> Previous

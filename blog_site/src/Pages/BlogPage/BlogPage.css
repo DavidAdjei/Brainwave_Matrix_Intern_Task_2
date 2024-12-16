@@ -28,6 +28,7 @@
     align-items: center;
     background-color: #007BFF;
     padding: .5rem;
+    color: white;
   }
   
   .sidebar.open {
@@ -140,6 +141,13 @@
     align-items: flex-start;
   }
 
+  .author-info .author-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
   .blog-content .profile-icon{
     width: 24px;
     height: 24px;
@@ -158,6 +166,9 @@
   }
   
   .pagination button {
+    display: flex;
+    gap: .3rem;
+    align-items: center;
     padding: 10px 15px;
     background-color: #007BFF;
     color: #fff;
@@ -177,11 +188,14 @@
 
   @media (max-width: 768px) {
     .menu-toggle {
-        display: flex;
-        gap: .3rem;
-        align-items: center;
-        background-color: #007BFF;
-        padding: .5rem;
+      display: flex;
+      gap: .3rem;
+      align-items: center;
+      background-color: #00a6ff;
+      color: white;
+      border: none;
+      padding: .5rem;
+      margin-bottom: .4rem;
     }
 
     .menu-close{
@@ -217,5 +231,10 @@
   
     .blog-list {
       width: 100%;
+    }
+
+    .blog-item img{
+      width: 7rem;
+      height: 7rem;
     }
   }

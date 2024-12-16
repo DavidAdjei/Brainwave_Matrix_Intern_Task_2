@@ -1,0 +1,304 @@
+/* Settings.css */
+.settings {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1200px;
+    min-height: 90vh;
+    margin-block: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+/* Left-side menu styles */
+.settings-menu {
+    flex: 1 1 200px;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    padding: 1rem;
+}
+
+.settings-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.settings-menu li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.settings-menu li:hover {
+    background-color: #eaeaea;
+}
+
+.settings-menu .active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Content styles */
+.settings-content {
+    flex: 3 1 700px;
+    padding: 2rem;
+}
+
+.settings-content h2 {
+    font-size: 24px;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.form-group img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.form-group img:hover {
+    border-color: #007bff;
+}
+
+.form-group input[type="file"] {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.settings button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.settings button:hover {
+    background-color: #0056b3;
+    transform: scale(1.02);
+}
+
+.settings button:active {
+    transform: scale(0.98);
+}
+
+/* Security */
+.security {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.security h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.security-email {
+    margin-bottom: 20px;
+}
+
+.security-email h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.email-status {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.email-status p {
+    font-size: 16px;
+}
+
+.verified-text {
+    color: green;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.check-icon {
+    color: green;
+    margin-right: 5px;
+}
+
+.verify-email-btn, .change-email-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.verify-email-btn:hover, .change-email-btn:hover {
+    background-color: #0056b3;
+}
+
+.change-password-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.change-password-btn:hover {
+    background-color: #218838;
+}
+
+.change-password-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.change-password-form .form-group {
+    margin-bottom: 15px;
+}
+
+.change-password-form label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.change-password-form input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.change-password-form .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.change-password-form button.submit-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48%;
+}
+
+.change-password-form button.submit-btn:hover {
+    background-color: #218838;
+}
+
+.change-password-form button.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48%;
+}
+
+.change-password-form button.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+/* Preferences styles */
+.preferences {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.preference-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.preference-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .settings {
+        flex-direction: column;
+    }
+
+    .settings-menu {
+        flex: 1 1 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .settings-content {
+        flex: 1 1 100%;
+    }
+}

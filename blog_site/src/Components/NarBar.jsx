@@ -76,7 +76,7 @@ export default function NavBar() {
         {menuOpen && (
           <div className={`mobile-links ${menuOpen ? 'slide-in' : 'slide-out'}`}>
             {isAuth && (
-              <div className='userInfo' onClick={() => onButtonClick('profile')}> 
+              <div className='userInfo' onClick={() => onButtonClick(`profile/${user._id}`)}> 
                 <UserRound/>
                 <p>{user.firstName} {user.lastName}</p>
               </div>

@@ -26,14 +26,15 @@ app.use(urlencoded({ extended: false }));
 const whitelist = [
   'http://localhost:3000',
   'https://your-production-domain.com',
+  "http://172.20.10.3:3000",
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.includes(origin)) {
-      callback(null, true); // Allow requests with no origin (e.g., mobile apps) or in whitelist
+      callback(null, true);
     } else {
-      console.error(`Blocked by CORS: ${origin}`); // Log blocked origin
+      console.error(`Blocked by CORS: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },

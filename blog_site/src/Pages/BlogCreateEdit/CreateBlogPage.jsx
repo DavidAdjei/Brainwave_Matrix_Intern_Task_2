@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "./CreateBlogPage.css";
 import { Editor } from "@tinymce/tinymce-react";
 import { useDispatch } from "react-redux";
-import { createBlog } from "../Redux/blogs/thunks";
+import { createBlog } from "../../Redux/blogs/thunks";
 import axios from "axios";
-import {tags as availableTags, categories} from "../Utils/utils"
+import {tags as availableTags, categories} from "../../Utils/utils"
 
 const CreateBlogPage = () => {
   const [title, setTitle] = useState("");

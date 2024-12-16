@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, User, Edit } from "lucide-react";
 
 export default function HomePage() {
-  const { isAuth, user } = useSelector((state) => state.auth); // Include user details
+  const { isAuth, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { generalBlogs } = useSelector((state) => state.blogs);
   const blogs = generalBlogs.slice(0, 4);
@@ -79,7 +79,7 @@ export default function HomePage() {
                   ) : (
                     <User className="profile-icon" />
                   )}
-                  <p>@{blog.author.username}</p>
+                  <p>{user._id === blog.author._id ? "You" : `@${blog.author.username}`}</p>
                 </div>
                 <a href={`/blog/${blog._id}`}>Read More</a>
               </div>

@@ -1,10 +1,10 @@
 import express from "express";
 import { auth } from "../middleware/middleware.js";
-import { 
-    addBlog, 
-    deleteBlog, 
-    fetchBlogs, 
-    likeBlog, 
+import {
+    addBlog,
+    deleteBlog,
+    fetchBlogs,
+    likeBlog,
     uploadImage,
     getBlog,
     saveBlog,
@@ -20,6 +20,8 @@ router.get("/:id", getBlog);
 
 router.post("/", auth, addBlog);
 
+router.post("/upload", upload.single("image"), uploadImage);
+
 router.put("/like/:id", auth, likeBlog);
 
 router.put("/save/:id", auth, saveBlog);
@@ -27,7 +29,5 @@ router.put("/save/:id", auth, saveBlog);
 router.put("/:id", auth, editBlog);
 
 router.delete("/:id", auth, deleteBlog);
-
-router.post("/upload", upload.single("image"), uploadImage);
 
 export default router;

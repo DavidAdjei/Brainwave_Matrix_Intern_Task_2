@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./SignUp.css";
-import { InputField } from "../features/InputField";
+import { InputField } from "../../features/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signUp } from "../Redux/auth/thunks";
-import { setAuthError } from "../Redux/auth/actions";
+import { signUp } from "../../Redux/auth/thunks";
+import { setAuthError } from "../../Redux/auth/actions";
 
 
 const SignUp = () => {
