@@ -4,6 +4,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../Redux/blogs/thunks";
 import axios from "axios";
+import {tags as availableTags, categories} from "../Utils/utils"
 
 const CreateBlogPage = () => {
   const [title, setTitle] = useState("");
@@ -12,8 +13,6 @@ const CreateBlogPage = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
-
-  const availableTags = ["Technology", "Health", "Lifestyle", "Education", "Finance"];
 
   const handleTagToggle = (tag) => {
     setTags((prevTags) =>
@@ -102,9 +101,9 @@ const CreateBlogPage = () => {
             required
           >
             <option value="">Select a category</option>
-            {availableTags.map((tag) => (
-              <option key={tag} value={tag}>
-                {tag}
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
               </option>
             ))}
           </select>

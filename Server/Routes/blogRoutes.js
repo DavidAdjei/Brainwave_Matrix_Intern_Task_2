@@ -5,10 +5,10 @@ import {
     deleteBlog, 
     fetchBlogs, 
     likeBlog, 
-    updateBlog, 
     uploadImage,
     getBlog,
-    saveBlog
+    saveBlog,
+    editBlog
 } from "../Controllers/blogController.js";
 import { upload } from "../Utils/uploads.js";
 
@@ -24,7 +24,7 @@ router.put("/like/:id", auth, likeBlog);
 
 router.put("/save/:id", auth, saveBlog);
 
-router.put("/:id", auth, updateBlog);
+router.put("/:id", auth, editBlog);
 
 router.delete("/:id", auth, deleteBlog);
 

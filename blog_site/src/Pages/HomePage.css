@@ -142,6 +142,22 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
+  .blog-post-header {
+    position: relative;
+  }
+  
+  .edit-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .edit-icon:hover {
+    color: #000;
+  }
   
   .profile-icon {
     width: 24px;

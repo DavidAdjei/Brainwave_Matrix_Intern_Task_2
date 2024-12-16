@@ -1,3 +1,4 @@
+import { setUser } from "../auth/actions";
 import { setAllBlogs, setBlogError, setBlogLoading, setUserComments } from "./action";
 import axios from "axios"
 
@@ -18,6 +19,23 @@ export const createBlog = (blog, token) => async (dispatch) => {
     try {
       dispatch(setBlogLoading(true)); 
       await axios.post(`/blogs`, {blog}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(fetchAllBlogs()); 
+    } catch (error) {
+      const message = error.response?.data?.error || error.message || "Failed to create blog.";
+      dispatch(setBlogError(message)); 
+    } finally {
+      dispatch(setBlogLoading(false)); 
+    }
+  };
+
+  export const updateBlog = (id, blog, token) => async (dispatch) => {
+    try {
+      dispatch(setBlogLoading(true)); 
+      await axios.put(`/blogs/${id}`, {blog}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -66,18 +84,16 @@ export const createBlog = (blog, token) => async (dispatch) => {
   };
 
   export const saveBlog = ( blog, token) => async (dispatch) => {
-    try {
-      dispatch(setBlogLoading(true)); 
-      await axios.put(`/blogs/save/${blog}`, {}, {
+    try { 
+      const {data} = await axios.put(`/blogs/save/${blog}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      dispatch(setUser(data.user));
     } catch (error) {
       const message = error.response?.data?.error || error.message;
       dispatch(setBlogError(message)); 
-    } finally {
-      dispatch(setBlogLoading(false)); 
     }
   };
 
@@ -88,7 +104,7 @@ export const fetchUserComments = (id) => async (dispatch) => {
         dispatch(setUserComments(data.comments));
         dispatch(setBlogLoading(false));
     }catch(error){
-        const message = error.response?.data?.error || 'Login failed';
+        const message = error.response?.data?.error || error.message;
         dispatch(setBlogError(message));
         dispatch(setBlogLoading(false));
     }

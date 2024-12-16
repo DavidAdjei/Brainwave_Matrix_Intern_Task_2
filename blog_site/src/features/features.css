@@ -1,0 +1,22 @@
+.loader_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    z-index: 20000;
+    color: #0adbea;
+  }
+  
+  .loader_container .Atom {
+    z-index: 100000;
+  }

@@ -34,7 +34,7 @@ const Login = () => {
         dispatch(setAuthError("All fields are required"));
     }else{
         console.log(formData);
-        dispatch(login(formData));
+        dispatch(login(formData)).then(clearFields());
     }
   };
 

@@ -11,6 +11,21 @@
   min-height: 90vh;
 }
 
+.edit-heading{
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-button-icon {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.edit-button-icon:hover {
+  color: #000;
+  cursor: pointer;
+}
+
 .blog-info{
   display: flex;
   flex-direction: column;

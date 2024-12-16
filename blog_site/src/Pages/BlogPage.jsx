@@ -3,13 +3,7 @@ import "./BlogPage.css";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Menu, User, X } from 'lucide-react';
-
-const categories = ["Tech", "Travel", "Lifestyle", "Food"];
-const tags = [
-    "Database", "Travel", "Lifestyle", "Simplicity", "Recipes", "Food",
-    "Quick Meals", "Ghana", "Culture", "AI", "Technology", "Innovation",
-    "Organization", "Productivity", "Tips"
-];
+import {tags, categories} from "../Utils/utils";
 
 export default function BlogPage() {
   const { generalBlogs } = useSelector(state => state.blogs);

@@ -34,6 +34,33 @@ const addBlog = async (req, res) => {
     }
 };
 
+const editBlog = async (req, res) => {
+    try {
+        const { blog } = req.body;
+        const {userId} = req;
+        const {id} = req.params;
+        const existingBlog = await Blog.findById(id);
+        if(!existingBlog){
+            throw new Error("Blog not found");
+        }
+        if(existingBlog.author._id.toString() !== userId.toString()){
+            throw new Error("Blog doesn't belong to you");
+        }
+
+        const window = new JSDOM('').window;
+        const purify = DOMPurify(window);
+
+        const sanitizedHtml = purify.sanitize(blog.content);
+        blog.content = sanitizedHtml;        
+        await Blog.findByIdAndUpdate(id, blog);
+
+        return res.status(201).json({ message: "Blog updated successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({ error: error.message });
+    }
+};
+
 const fetchBlogs = async (req, res) => {
     try {
         const filters = req.query || {};
@@ -72,31 +99,6 @@ const getBlog = async (req, res) => {
         });
 
         return res.status(200).json({ blog });
-    } catch (error) {
-        console.error(error);
-        return res.status(400).json({ error: error.message });
-    }
-};
-
-
-const updateBlog = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { changes } = req.body;
-
-        if (!id || !changes) throw new Error("Invalid request: Missing blog ID or changes.");
-
-        const blog = await Blog.findById(id);
-        if (!blog) throw new Error("Blog not found.");
-
-        Object.keys(changes).forEach((key) => {
-            if (blog[key] !== undefined) {
-                blog[key] = changes[key];
-            }
-        });
-
-        await blog.save();
-        return res.status(200).json({ message: "Blog updated successfully.", blog });
     } catch (error) {
         console.error(error);
         return res.status(400).json({ error: error.message });
@@ -171,21 +173,27 @@ const saveBlog = async (req, res) => {
         if (!blog) throw new Error("Blog not found");
         const user = await User.findById(userId);
         if (!user) throw new Error("User not found");
-
+        
         if(user.savedBlogs.includes(id)){
-            const savedBlogs = user.savedBlogs.filter(blogId => blogId !== id); 
+            console.log("Already saved")
+            var savedBlogs = user.savedBlogs.filter(blogId => blogId.toString() !== id.toString()); 
+            console.log({savedBlogs})
             user.savedBlogs = savedBlogs;
+            await user.save();
         }else{
+            console.log("Now saving")
             user.savedBlogs.unshift(id);
+            await user.save();
         }
 
-        await user.save();
+        user.password = undefined;
+        user.secret = undefined;
 
-        return res.status(200).json({ message: "Successful"});
+        return res.status(200).json({ message: "Successful", user});
     }catch(err){
         console.log(err);
         res.status(500).json({ error: err.message });
     }
 }
 
-export { addBlog, fetchBlogs, getBlog, updateBlog, deleteBlog, uploadImage, likeBlog, saveBlog};
+export { addBlog, editBlog, fetchBlogs, getBlog, deleteBlog, uploadImage, likeBlog, saveBlog};

@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./BlogDetails.css";
 import { useDispatch, useSelector } from "react-redux";
-import { User } from "lucide-react";
+import { Edit, User } from "lucide-react";
 import { likeBlog, newComment, saveBlog } from "../Redux/blogs/thunks";
 import axios from "axios";
+import Loader from "../features/Loader";
 
 const BlogDetails = () => {
   const { id } = useParams();
   const {user} = useSelector(state => state.auth);
   const [blog, setBlog] = useState(null);
-  const [saved, setSaved] = useState(false);
+  const [saved] = useState(user?.savedBlogs.some(blog => blog._id === id));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -40,21 +41,6 @@ const BlogDetails = () => {
     })
   }
 
-  const getUserSaves = async (token) => {
-    return new Promise( async (resolve, reject) => {
-      try{
-        const { data } = await axios.get('/auth/get-user-saved', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        resolve(data.user);
-      }catch(err){
-        reject(err.response?.data.error || err.message)
-      }
-    })
-  }
-
   const handleLike = () => {
     const token = localStorage.getItem("userToken");
     if(token){
@@ -67,11 +53,8 @@ const BlogDetails = () => {
   const handleSave = () => {
     const token = localStorage.getItem("userToken");
     if(token){
-      dispatch(saveBlog(id, token)).then(() => {
-
-      })
+      dispatch(saveBlog(id, token))
     }
-    setSaved(!saved);
   };
 
   const handleComment = () => {
@@ -88,16 +71,16 @@ const BlogDetails = () => {
     }
   };
 
-  if(loading){
-    return(
-      <div>
-        Loading
-      </div>
-    )
-  }
+  const onEditClick = (blogId) => {
+    navigate(`/edit/${blogId}`);
+  };
 
   if (!blog) {
     return <h2>Blog not found</h2>;
+  }
+
+  if(loading){
+    <Loader text={`Loading details...`}/>
   }
 
   return (
@@ -121,7 +104,18 @@ const BlogDetails = () => {
           </div>
         </div>
 
-        <h1>{blog.title}</h1>
+        <h1 className="edit-heading">
+          {blog.title} 
+          <div className="edit-button">
+            {user && blog.author._id === user._id && (
+              <Edit
+                className="edit-button-icon"
+                size={20}
+                onClick={() => onEditClick(blog._id)}
+              />
+            )}
+          </div>  
+        </h1>
         <img src={blog.image} alt={blog.title} />
         <div dangerouslySetInnerHTML={{__html: blog.content}}/>
 

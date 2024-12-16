@@ -75,7 +75,13 @@ const isAuth = async (req, res) => {
         const {userId} = req;
         if(!userId) throw new Error("Unauthorized");
 
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).populate({
+            path: "savedBlogs",
+            populate: {
+                path: "author",
+                select: 'firstName lastName email image _id username'
+            }
+        });
 
         if (!user)throw new Error("User not found");
         
@@ -83,7 +89,7 @@ const isAuth = async (req, res) => {
 
         user.lastSignIn = now;
         await user.save();
-
+        
         user.password = undefined;
         user.secret = undefined;
         
