@@ -1,15 +1,24 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./HomePage.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, User, Edit } from "lucide-react";
-
+import {verifyUser} from '../../Redux/auth/thunks'
 export default function HomePage() {
   const { isAuth, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { generalBlogs } = useSelector((state) => state.blogs);
   const blogs = generalBlogs.slice(0, 4);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(token){
+      dispatch(verifyUser(token));
+    }
+  },[dispatch, token, navigate, user])
 
   const onButtonClick = (page) => {
     navigate(`/${page}`);
@@ -20,7 +29,7 @@ export default function HomePage() {
   };
 
   return (
-    <div>
+    <div className="home">
       <section className="hero-container">
         <div className="hero-content">
           <h1>A modern publishing platform</h1>
@@ -79,7 +88,7 @@ export default function HomePage() {
                   ) : (
                     <User className="profile-icon" />
                   )}
-                  <p>{user._id === blog.author._id ? "You" : `@${blog.author.username}`}</p>
+                  <p>{user?._id === blog.author._id ? "You" : `@${blog.author.username}`}</p>
                 </div>
                 <a href={`/blog/${blog._id}`}>Read More</a>
               </div>

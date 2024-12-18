@@ -1,76 +1,62 @@
-import jwt from 'jsonwebtoken';
-import nodemailer from "nodemailer";
-const {sign} = jwt;
-export function generateToken(user) {
-    const token = sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'} );
-    return token
+import jwt from 'jsonwebtoken'
+import nodemailer from 'nodemailer'
+const { sign } = jwt
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+export function generateToken (user, type, expiresIn) {
+  return jwt.sign({ _id: user._id, type }, process.env.JWT_SECRET, {
+    expiresIn
+  })
 }
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
-    }
-});
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+})
 
-export const sendEmail = async (receiver, user, subject, message) => {
-    const mailOptions = {
-        from: user.email,
-        to: receiver,
-        subject: subject,
-        text: message
-    };
-    
-    try {
-        await transporter.sendMail(mailOptions);
-        return true;
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
+export const sendVerificationEmail = async (user, token) => {
+  const uri = `${process.env.FRONTEND_URL}?token=${token}`
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: user.email,
+    subject: 'Email Verification',
+    html: `<h1>Verify Your Email</h1>
+          <p>Click on the link below to verify your email</p>
+          <a href=${uri}>Verify Email</a>
+          `
+  }
+  try {
+    await transporter.sendMail(mailOptions)
+    return true
+  } catch (err) {
+    console.error('Error sending email', err)
+    return false
+  }
 }
 
+export const sendResetEmail = async (user, token) => {
+  const uri = `${process.env.FRONTEND_URL}/forgot-password?token=${token}`
+  const mailOptions = {
+    from: process.env.EMAIL_USERNAME,
+    to: user.email,
+    subject: 'Password Reset',
+    html: `<h1>Reset Your Password</h1>
+          <p>Click on the link below to change your password</p>
+          <a href=${uri}>Change Password</a>
+          `
+  }
+  try {
+    const data = await transporter.sendMail(mailOptions)
 
-// const axios = require('axios');
-// const qs = require('qs');
-
-// exports.googleOAuth = async (code) => {
-//     const url = "https://oauth2.googleapis.com/token";
-
-//     const values = {
-//         code,
-//         client_id: process.env.GOOGLE_CLIENT_ID,
-//         client_secret: process.env.GOOGLE_CLIENT_SECRET,
-//         redirect_uri: process.env.REDIRECT_URL,
-//         grant_type: "authorization_code"
-//     };
-
-//     try{
-//         const {data} = await axios.post(url, qs.stringify(values), {
-//             headers: {
-//                 "Content-Type": "application/x-www-form-urlencoded"
-//             }
-//         }); 
-//         return data;
-//     }catch(error){
-//         console.log(error.response?.data);
-//         throw error;
-//     }
-// }
-
-// exports.getGoogleUser = async (id_token, access_token) => {
-//     try{
-//         const url = `https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=${access_token}`;
-//         const {data} = await axios.get(url, {
-//             headers: {
-//                 Authorization: `Bearer ${id_token}`
-//             }
-//         });
-//         return data;
-//     }catch(error){
-//         console.log(error.response?.data, "Error fetching google user");
-//         throw error;
-//     } 
-// }
-
+    console.log({ data })
+    return true
+  } catch (err) {
+    console.error('Error sending email', err)
+    return false
+  }
+}

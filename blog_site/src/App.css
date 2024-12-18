@@ -17,6 +17,10 @@ a {
   text-decoration: none;
 }
 
+.App{
+  min-height: 100vh;
+}
+
 /* Footer */
 footer {
   background: #333;

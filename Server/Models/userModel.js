@@ -56,7 +56,21 @@ const UserSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "User"
         }
-    ]
+    ],
+    preferences: {
+        notifications : {
+            type: Boolean,
+            default: true
+        },
+        emails : {
+            type: Boolean,
+            default: true
+        },
+        newsletter : {
+            type: Boolean,
+            default: true
+        }
+    }
 }, {
     timestamps: true,
 });

@@ -29,7 +29,7 @@ export const auth = async (req, res, next) => {
             return res.status(401).json({ error: 'Invalid or expired token' });
         }
 
-        const userId = decoded.id;
+        const userId = decoded._id;
         if (!userId) {
             return res.status(400).json({ error: 'Invalid token payload: Missing user ID' });
         }

@@ -24,7 +24,6 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getUser(id).then((res) => {
-      console.log({ res });
       setSelectedUser(res);
       getComments(id).then((response) => {
         setCommets(response);
@@ -97,14 +96,15 @@ const ProfilePage = () => {
           )}
         </div>
       )}
+
       {!isCurrentUser && (
         <button className="follow" onClick={() => handleFollow(selectedUser._id)}>
-          {selectedUser?.followers.some((follower) => follower._id === user._id)
+          {selectedUser?.followers.some((follower) => follower._id === user?._id)
             ? "Following"
             : "Follow"}
         </button>
       )}
-      {/* Profile Section */}
+
       <section className="profile-section">
         <div className="profile-header">
           <img
@@ -125,7 +125,6 @@ const ProfilePage = () => {
         
       </section>
 
-      {/* Activity Section */}
       <section className="activity-section">
         <div className="tabs">
           <button
@@ -245,8 +244,8 @@ const ProfilePage = () => {
             <div className="following">
               <h2>Following</h2>
               <ul className="user-list">
-                {user.following.length > 0 ? (
-                  user.following.map((followingUser) => (
+                {selectedUser.following.length > 0 ? (
+                  selectedUser.following.map((followingUser) => (
                     <li
                       key={followingUser._id}
                       onClick={() => handleUserClick(followingUser._id)}
@@ -274,8 +273,8 @@ const ProfilePage = () => {
             <div className="followers">
               <h2>Followers</h2>
               <ul className="user-list">
-                {user.followers.length > 0 ? (
-                  user.followers.map((follower) => (
+                {selectedUser.followers.length > 0 ? (
+                  selectedUser.followers.map((follower) => (
                     <li
                       key={follower._id}
                       onClick={() => handleUserClick(follower._id)}

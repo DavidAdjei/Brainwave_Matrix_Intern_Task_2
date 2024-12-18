@@ -149,12 +149,20 @@
 .email-status {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
     align-items: center;
     justify-content: space-between;
 }
 
 .email-status p {
     font-size: 16px;
+}
+
+.email-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .verified-text {
@@ -169,7 +177,16 @@
     margin-right: 5px;
 }
 
-.verify-email-btn, .change-email-btn {
+.verify-email-link {
+    cursor: pointer;
+    color: #007bff;
+}
+
+.verify-email-link:hover {
+    color: rgb(8, 69, 133);
+}
+
+.change-email-btn {
     background-color: #007bff;
     color: white;
     border: none;
@@ -179,7 +196,8 @@
     transition: background-color 0.3s;
 }
 
-.verify-email-btn:hover, .change-email-btn:hover {
+.verify-email-btn:hover,
+.change-email-btn:hover {
     background-color: #0056b3;
 }
 
@@ -271,6 +289,10 @@ button {
     gap: 1rem;
 }
 
+.preferences h2 {
+    margin-bottom: 1px;
+}
+
 .preference-item {
     display: flex;
     justify-content: space-between;
@@ -281,10 +303,52 @@ button {
     background-color: #f9f9f9;
 }
 
-.preference-item input[type="checkbox"] {
-    width: 20px;
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
     height: 20px;
 }
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #4caf50;
+}
+
+input:checked+.slider::before {
+    transform: translateX(20px);
+}
+
 
 /* Responsive styles */
 @media (max-width: 768px) {
