@@ -58,17 +58,29 @@ const UserSchema = new Schema({
         }
     ],
     preferences: {
-        notifications : {
+        comments : {
             type: Boolean,
             default: true
         },
-        emails : {
+        likes : {
             type: Boolean,
             default: true
         },
-        newsletter : {
+        newBlogs : {
             type: Boolean,
             default: true
+        },
+        follower : {
+            type: Boolean,
+            default: true
+        },
+        emails:{
+            type: Boolean,
+            default: false,
+        },
+        newsletter: {
+            type: Boolean,
+            default: false
         }
     }
 }, {

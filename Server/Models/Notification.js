@@ -1,27 +1,36 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
-const NotificationSchema = new Schema({
+const notificationSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
+    ref: 'User',
+    required: true
   },
   message: {
     type: String,
-    required: true,
+    required: true
   },
-  isRead: {
+  type: {
+    type: String,
+    enum: ['comments', 'likes', 'newBlogs', 'follower'],
+    required: true
+  },
+  read: {
     type: Boolean,
-    default: false,
+    default: false
   },
-  sentAt: {
+  createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
-});
+  blogId: {
+    type: Schema.Types.ObjectId,
+    ref: "Blog"
+  },
+  follower: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
+})
 
-export default model("Notification", NotificationSchema);
+export default model('Notification', notificationSchema)

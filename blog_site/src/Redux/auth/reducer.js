@@ -1,11 +1,12 @@
-import { LOGOUT, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_USER } from "./types"
+import { LOGOUT, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_NOTIFICATIONS, SET_USER } from "./types"
 
 const initialState = {
     user: null,
     isAuth: false,
     authLoading: false,
     error: null,
-    selectedUser: null
+    selectedUser: null,
+    notifications: [],
 }
 
 const authReducer = (state = initialState, action) => {
@@ -30,6 +31,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 error: action.payload
             } 
+        case SET_NOTIFICATIONS: 
+        return{
+            ...state,
+            notifications: action.payload
+        }
         case LOGOUT:
             return{
                 ...state,

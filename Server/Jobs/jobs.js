@@ -1,6 +1,6 @@
-import schedule from "node-schedule"
-import Task from "../Models/taskModel.js";
-import Notification from "../Models/Notification.js";
+// import schedule from "node-schedule"
+// import Task from "../Models/taskModel.js";
+// import Notification from "../Models/Notification.js";
 
 // const checkOverdueTasks = schedule.scheduleJob('* * * * *', async () => {
 //   try {
@@ -16,17 +16,7 @@ import Notification from "../Models/Notification.js";
 // });
 
 
-const getDate = (date) => {
-    const newDate = new Date(date);
-    return newDate.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    });
-  }
+
 
 
 // const dueDateNotification = schedule.scheduleJob("0 * * * *", async () => {

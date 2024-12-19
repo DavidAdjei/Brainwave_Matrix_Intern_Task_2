@@ -2,10 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import './BlogDetails.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { Edit, User } from 'lucide-react'
-import { likeBlog, newComment, saveBlog } from '../../Redux/blogs/thunks'
+import { Edit, User, TrashIcon } from 'lucide-react'
+import {
+  deleteBlog,
+  likeBlog,
+  newComment,
+  saveBlog
+} from '../../Redux/blogs/thunks'
 import axios from 'axios'
 import Loader from '../../features/Loader'
+import { DeleteModal } from '../../Components/DeleteModal'
+import { formatDistanceToNow } from 'date-fns'
 
 const BlogDetails = () => {
   const { id } = useParams()
@@ -19,6 +26,8 @@ const BlogDetails = () => {
   const [loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
   const [sent, setSent] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [visibleComments, setVisibleComments] = useState(5)
 
   useEffect(() => {
     getBlog(id)
@@ -33,6 +42,10 @@ const BlogDetails = () => {
         setSent(false)
       })
   }, [id, sent])
+
+  const handleShowMore = () => {
+    setVisibleComments(prev => prev + 10)
+  }
 
   const getBlog = async id => {
     return new Promise(async (resolve, reject) => {
@@ -81,6 +94,15 @@ const BlogDetails = () => {
     navigate(`/edit/${blogId}`)
   }
 
+  const handleDelete = () => {
+    const token = localStorage.getItem('userToken')
+    if (token) {
+      dispatch(deleteBlog(id, token)).then(() => {
+        navigate('/') // Navigate back to the home page after deletion
+      })
+    }
+  }
+
   if (!blog) {
     return <h2>Blog not found</h2>
   }
@@ -119,11 +141,25 @@ const BlogDetails = () => {
           {blog.title}
           <div className='edit-button'>
             {user && blog.author._id === user._id && (
-              <Edit
-                className='edit-button-icon'
-                size={20}
-                onClick={() => onEditClick(blog._id)}
-              />
+              <div className='edit-delete'>
+                <Edit
+                  className='edit-button-icon'
+                  size={22}
+                  onClick={() => onEditClick(blog._id)}
+                />
+                <TrashIcon
+                  className='delete-button-icon'
+                  size={22}
+                  onClick={() => setShowDeleteModal(true)}
+                />
+
+                {showDeleteModal && (
+                  <DeleteModal
+                    onDelete={handleDelete}
+                    onCancel={() => setShowDeleteModal(false)}
+                  />
+                )}
+              </div>
             )}
           </div>
         </h1>
@@ -153,8 +189,8 @@ const BlogDetails = () => {
 
         <h3>Comments</h3>
         {blog.comments.length > 0 ? (
-          <ul com>
-            {blog.comments.map(comment => (
+          <ul>
+            {blog.comments.slice(0, visibleComments).map(comment => (
               <li key={comment._id}>
                 <strong
                   onClick={() => navigate(`/profile/${comment.user._id}`)}
@@ -163,12 +199,21 @@ const BlogDetails = () => {
                 </strong>{' '}
                 {comment.comment}
                 <br />
-                <small>{new Date(comment.createdAt).toLocaleString()}</small>
+                <small style={{textTransform: "capitalize"}}>
+                  {formatDistanceToNow(new Date(comment.createdAt), {
+                    addSuffix: true
+                  })}
+                </small>
               </li>
             ))}
           </ul>
         ) : (
           <p>No comments yet.</p>
+        )}
+        {visibleComments < blog.comments.length && (
+          <button className='show-more-btn' onClick={handleShowMore}>
+            Show More
+          </button>
         )}
         <Link to='/' className='back-button'>
           Back to Home

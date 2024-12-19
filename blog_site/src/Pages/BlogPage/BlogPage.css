@@ -198,6 +198,10 @@
       margin-bottom: .4rem;
     }
 
+    .blog-content h2{
+      font-size: 15px;
+    }
+
     .menu-close{
         display: flex;
         gap: .3rem;

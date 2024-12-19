@@ -49,6 +49,23 @@ export const updateBlog = (id, blog, token) => async (dispatch) => {
   }
 };
 
+export const deleteBlog = (id, token) => async (dispatch) => {
+  try {
+    dispatch(setBlogLoading(true));
+    await axios.delete(`/blogs/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(fetchAllBlogs());
+  } catch (error) {
+    const message = error.response?.data?.error || error.message || "Failed to create blog.";
+    dispatch(setBlogError(message));
+  } finally {
+    dispatch(setBlogLoading(false));
+  }
+};
+
 export const newComment = (comment, blog, token) => async (dispatch) => {
   try {
     dispatch(setBlogLoading(true));
@@ -68,7 +85,6 @@ export const newComment = (comment, blog, token) => async (dispatch) => {
 
 export const likeBlog = (blog, token) => async (dispatch) => {
   try {
-    dispatch(setBlogLoading(true));
     await axios.put(`/blogs/like/${blog}`, {}, {
       headers: {
         Authorization: `Bearer ${token}`,

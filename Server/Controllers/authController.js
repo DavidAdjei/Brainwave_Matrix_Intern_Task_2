@@ -4,7 +4,9 @@ import {
   sendResetEmail,
   sendVerificationEmail
 } from '../Utils/auth.js'
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import { sendNotification } from '../Utils/notifications.js'
+
 
 const register = async (req, res) => {
   try {
@@ -184,8 +186,11 @@ const followUser = async (req, res) => {
       console.log('Following')
       user.following.unshift(userToFollowId)
       userToFollow.followers.unshift(userId)
-      await user.save()
-      await userToFollow.save()
+      await user.save();
+      await userToFollow.save();
+      const io = req.app.get("socketio");
+      const message = `${user.firstName} ${user.lastName} just followed you`;
+      sendNotification(userToFollow._id, message, "follower", user._id, io);
     }
     return res.json({ message: 'Followed' })
   } catch (err) {

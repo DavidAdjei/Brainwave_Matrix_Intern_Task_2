@@ -6,7 +6,9 @@ import connectDB from './config/connectDb.js';
 import authRoutes from './Routes/authRoutes.js';
 import blogRoutes from './Routes/blogRoutes.js';
 import commentRoutes from './Routes/comments.js';
-
+import notificationRoutes from "./Routes/notificationRoutes.js";
+import {Server} from "socket.io";
+import http from "http";
 
 dotenv.config();
 
@@ -16,6 +18,8 @@ const port = process.env.PORT || 5000;
 await connectDB();
 
 const app = express();
+
+const server = http.createServer(app);
 
 // Middleware
 app.use(morgan('dev'));
@@ -44,11 +48,38 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const io = new Server(server, {
+  cors: {
+    origin: function (origin, callback) {
+      if (!origin || whitelist.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.error(`Blocked by CORS for Socket.IO: ${origin}`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("A user connected: ", socket.id);
+
+  socket.on("disconnet", () => {
+    console.log("User disconnected: ", socket.id);
+  })
+})
+
+app.set("socketio", io);
+
+
 // Routes
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/blogs', blogRoutes);
 app.use('/api/v1/comments', commentRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 
 // Jobs
 // Ensure the scheduled job runs
@@ -56,4 +87,4 @@ app.use('/api/v1/comments', commentRoutes);
 // dueDateNotification;
 
 // Start the server
-app.listen(port, () => console.log(`Server running on port ${port}`));
+server.listen(port, () => console.log(`Server running on port ${port}`));

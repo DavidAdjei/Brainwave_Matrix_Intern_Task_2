@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export function generateToken (user, type, expiresIn) {
-  return jwt.sign({ _id: user._id, type }, process.env.JWT_SECRET, {
+  return sign({ _id: user._id, type }, process.env.JWT_SECRET, {
     expiresIn
   })
 }

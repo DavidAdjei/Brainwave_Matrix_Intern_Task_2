@@ -1,4 +1,4 @@
-import { LOGOUT, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_USER } from "./types";
+import { LOGOUT, SET_AUTH, SET_AUTH_ERROR, SET_AUTH_LOADING, SET_NOTIFICATIONS, SET_USER } from "./types";
 
 export const setAuthLoading = (loading) => ({
     type: SET_AUTH_LOADING,
@@ -18,6 +18,11 @@ export const setAuth = (auth) => ({
 export const setAuthError = (error) => ({
     type: SET_AUTH_ERROR,
     payload: error
+});
+
+export const setNotifications = (notifications) => ({
+    type: SET_NOTIFICATIONS,
+    payload: notifications
 })
 
 export const logout = () => ({

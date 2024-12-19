@@ -14,10 +14,27 @@
 .edit-heading{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.edit-delete{
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .edit-button-icon {
   color: #ccc;
+  cursor: pointer;
+}
+
+.delete-button-icon {
+  color: #f42e2e3e;
+  cursor: pointer;
+}
+
+.delete-button-icon:hover {
+  color: #ff0000;
   cursor: pointer;
 }
 
@@ -80,7 +97,6 @@
   
   .blog-details h1 {
     font-size: 2rem;
-    margin-bottom: 10px;
     text-align: left;
   }
   
@@ -171,3 +187,15 @@
       flex-direction: column;
     }
   }
+
+  @media screen and (max-width: 560px) {
+    .blog-details .blog-image {
+      height: 250px;
+    }
+
+    .blog-details h1{
+      font-size: 1.5rem;
+    }
+  }
+
+  

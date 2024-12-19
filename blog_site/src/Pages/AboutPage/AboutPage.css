@@ -1,0 +1,491 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.about-page {
+    background-color: #f0f4f8;
+    color: #2b2e4a;
+}
+
+.about-page h1 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+
+
+/* Hero Section */
+
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.hero-buttons .btn-primary {
+    background-color: #2e3b85;
+    color: #fff;
+}
+
+.hero-buttons .btn-secondary {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+/* Features Section */
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 40px 20px;
+}
+
+.future {
+    background-image: url(../../assets/illustration-editor-desktop.svg);
+    background-size: 29rem;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+
+.future .left {
+    width: 55%;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.feature h2 {
+    color: #4a67d6;
+}
+
+/* Infrastructure Section */
+.infrastructure {
+    height: auto;
+    width: 100%;
+    padding: 28px 20px;
+    border-radius: 0rem 3rem 0rem 3rem;
+    background-color: #3b3e6f;
+    background-image: url(../../assets/bg-pattern-circles.svg);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 50rem;
+    color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    position: relative; /* Enables absolute positioning for children */
+}
+
+.phone-section {
+    position: absolute; 
+    top: 50%; 
+    left: 5rem; 
+    transform: translateY(-46.5%); 
+    width: 50%; 
+    height: 133%;
+    background-image: url(../../assets/illustration-phones.svg);
+    background-repeat: no-repeat;
+    background-size: 27rem; 
+    background-position: left center; 
+    z-index: 1;
+}
+
+.infrastructure-content {
+    width: 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    z-index: 2; /* Keeps the text content above the phone image */
+    padding: 4rem;
+}
+
+.infrastructure-content p{
+    width: 25rem;
+}
+
+
+/* Simple and Powerful Section */
+.simple-powerful {
+    display: flex;
+    background-image: url(../../assets/illustration-laptop-desktop.svg);
+    background-position: -14rem center;
+    background-repeat: no-repeat;
+    background-size: 47rem;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 40px 20px;
+}
+
+.simple{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 3rem;
+}
+
+.simple-content,
+.powerful-content {
+    text-align: left;
+    width: 85%;
+}
+
+.simple-content h2,
+.powerful-content h2 {
+    font-size: 2.3rem;
+    padding: 1rem;
+    color: #4a67d6;
+}
+
+.simple-content p,
+.powerful-content p {
+    font-size: 1.4rem;
+    padding: 1rem;
+}
+
+@media screen and (max-width: 986px){
+    .future {
+        background-size: 26rem;
+    }
+    
+    
+    .future .left {
+        width: 62%;
+        padding-block: 4rem;
+        padding-inline: 1rem 3rem;
+    }
+
+    .future .left p{
+        width: 85%;
+    }
+
+    .infrastructure {
+        padding: 28px 20px;
+    }
+
+    .infrastructure h2{
+        font-size: 1.6rem;
+    }
+
+    .phone-section { 
+        left: 3rem; 
+        transform: translateY(-46.5%);  
+        background-size: 25rem; 
+        height: 122%;
+    }
+    
+    .infrastructure-content {
+        padding-block: 4rem;
+        padding-inline: 1rem;
+    }
+    
+    .infrastructure-content p{
+        width: 23rem;
+    }
+
+    .simple-powerful {
+        background-position: -14rem center;
+        background-size: 40rem;
+    }
+    
+    
+    .simple-content h2,
+    .powerful-content h2 {
+        font-size: 2rem;
+    }
+    
+    .simple-content p,
+    .powerful-content p {
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (max-width: 837px){
+    .future {
+        background-size: 22rem;
+    }
+    
+    
+    .future .left {
+        width: 70%;
+    }
+
+    .future .left p{
+        width: 85%;
+    }
+
+    .infrastructure {
+        padding: 28px 20px;
+    }
+
+    .infrastructure h2{
+        font-size: 1.3rem;
+    }
+
+    .phone-section { 
+        left: 2rem; 
+        transform: translateY(-46.5%);  
+        background-size: 23rem; 
+        height: 120%;
+    }
+    
+    .infrastructure-content {
+        padding-block: 4rem;
+        padding-inline: 1rem;
+    }
+    
+    .infrastructure-content p{
+        width: 20rem;
+    }
+
+    .simple-powerful {
+        background-position: -14rem center;
+        background-size: 35rem;
+        padding: 40px 20px;
+    }
+    
+    .simple{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 3rem;
+    }
+    
+    .simple-content,
+    .powerful-content {
+        text-align: left;
+        width: 95%;
+    }
+    
+    .simple-content h2,
+    .powerful-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .simple-content p,
+    .powerful-content p {
+        font-size: .8rem;
+    }
+}
+
+.future-heading{
+    display: none;
+}
+
+@media screen and (max-width: 744px){
+    .future-heading{
+        display: block;
+        text-align: center;
+        margin-block: 2rem;
+    }
+
+    .features h1{
+        display: none;
+    }
+    
+    .future {
+        background-image: url(../../assets/illustration-editor-mobile.svg);
+        background-size: 29rem;
+        flex-direction: row;
+        justify-content: center;
+        background-position: top;
+    }
+
+    .future {
+        background-size: 28rem;
+    }
+    
+    .future .left {
+        width: 75%;
+        margin-top: 15rem;
+        text-align: center;
+        padding: 2rem;
+        padding-inline: 1rem 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .future .left h2{
+        font-size: 2rem;
+    }
+
+    .future .left p{
+        width: 95%;
+    }
+
+    .infrastructure {
+        height: auto;
+        width: 100%;
+        padding: 28px 20px;
+        border-radius: 0rem 3rem 0rem 3rem;
+        background-image: url(../../assets/bg-pattern-circles.svg);
+        background-position: center -12rem;
+        background-size: 30rem;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+    }
+    
+    .phone-section { 
+        width: 100%; 
+        background-image: url(../../assets/illustration-phones.svg);
+        background-size: 27rem; 
+        z-index: 1;
+        left: unset;
+        right: unset;
+        transform: translateY(-90.5%);
+        background-size: 23rem;
+        height: 78%;
+        background-position: top;
+    }
+    
+    .infrastructure-content {
+        width: 100%;
+        margin-top: 15rem;
+        align-items: center;
+    }  
+
+    .infrastructure h2{
+        font-size: 1.3rem;
+    }
+    
+    .infrastructure-content {
+        padding-block: 4rem;
+        padding-inline: 1rem;
+        text-align: center;
+    }
+    
+    .infrastructure-content p{
+        width: 20rem;
+    }
+
+    .simple-powerful {
+        background-image: url(../../assets/illustration-laptop-mobile.svg);
+        background-position: top;
+        background-size: 35rem;
+        padding: 40px 20px;
+    }
+
+    .simple-powerful {
+        gap: 20px;
+        padding: 40px 20px;
+    }
+    
+    .simple{
+        width: 100%;
+        padding: 1rem;
+        margin-top: 15rem;
+    }
+    
+    .simple-content,
+    .powerful-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 70%;
+    }
+    
+    .simple-content h2,
+    .powerful-content h2 {
+        font-size: 2.3rem;
+    }
+    
+    .simple-content p,
+    .powerful-content p {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .about-page .future-heading{
+        margin-block: 1.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .future {
+        background-size: 25rem;
+    }
+
+    .future {
+        background-size: 25rem;
+    }
+    
+    .future .left {
+        width: 95%;
+        margin-top: 13rem;
+    }
+
+    .future .left h2{
+        font-size: 1.5rem;
+    }
+
+    .future .left p{
+        width: 95%;
+    }
+
+    .infrastructure {
+        border-radius: 0rem 3rem 0rem 3rem;
+        background-size: 25rem;   
+    }
+    
+    .phone-section { 
+        transform: translateY(-90.5%);
+        background-size: 23rem;
+        height: 78%;
+        background-position: top;
+    }
+    
+    .infrastructure-content {
+        width: 100%;
+        margin-top: 13rem;
+    }  
+
+    .infrastructure h2{
+        font-size: 1.5rem;
+    }
+    
+    .infrastructure-content p{
+        width: 20rem;
+    }
+
+    .simple-powerful {
+        background-size: 30rem;
+    }
+
+    .simple-powerful {
+        padding: 40px 20px;
+    }
+    
+    .simple{
+        margin-top: 13rem;
+    }
+    
+    .simple-content,
+    .powerful-content {
+        width: 90%;
+    }
+    
+    .simple-content h2,
+    .powerful-content h2 {
+        font-size: 1.8rem;
+    }
+  }
+

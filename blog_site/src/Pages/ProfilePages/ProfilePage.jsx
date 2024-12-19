@@ -25,6 +25,7 @@ const ProfilePage = () => {
   useEffect(() => {
     getUser(id).then((res) => {
       setSelectedUser(res);
+      setActiveTab("blogs");
       getComments(id).then((response) => {
         setCommets(response);
       })

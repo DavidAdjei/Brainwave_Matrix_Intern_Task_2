@@ -7,7 +7,7 @@ import SignUp from './Pages/Auth/SignUp'
 import Login from './Pages/Auth/Login'
 import NavBar from './Components/NarBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkAuth } from './Redux/auth/thunks'
+import { checkAuth, fetchNotifications } from './Redux/auth/thunks'
 import { fetchAllBlogs } from './Redux/blogs/thunks'
 import BlogPage from './Pages/BlogPage/BlogPage'
 import ProfilePage from './Pages/ProfilePages/ProfilePage'
@@ -17,10 +17,17 @@ import EditBlogPage from './Pages/BlogCreateEdit/EditBlogPage'
 import Loader from './features/Loader'
 import Settings from './Pages/Settings/Settings'
 import ForgotPassword from './Pages/Auth/ForgotPassword'
+import { io } from 'socket.io-client'
+import AboutPage from './Pages/AboutPage/AboutPage'
+
+const socket = io("http://172.20.10.3:8000");
+
+// axios.defaults.baseURL = 'http://172.20.10.3:8000/api/v1';
+// axios.defaults.baseURL = "http://192.168.0.161:8000/api/v1"
 
 function App () {
   const dispatch = useDispatch()
-  const { isAuth, authLoading } = useSelector(state => state.auth)
+  const { isAuth, authLoading, user } = useSelector(state => state.auth)
   const { loading } = useSelector(state => state.blogs)
   const location = useLocation()
   const [searchParams] = useSearchParams()
@@ -31,7 +38,9 @@ function App () {
       try {
         const token = localStorage.getItem('userToken')
         if (token) {
-          dispatch(checkAuth(token))
+          dispatch(checkAuth(token)).then(() => {
+            dispatch(fetchNotifications(token))
+          }) 
         }
       } catch (error) {
         console.error('Error fetching token:', error)
@@ -40,6 +49,28 @@ function App () {
     initializeAuth()
     dispatch(fetchAllBlogs())
   }, [dispatch])
+
+
+  useEffect(() => {
+    // Listen for notifications
+    socket.on("notification", (notification) => {
+      if(isAuth){
+        if(notification.userId === user._id){
+          console.log(true);
+          const token = localStorage.getItem("userToken");
+          dispatch(fetchNotifications(token));
+        }else{
+          console.log(false);
+        }
+      }
+      console.log("Notification received:", notification);
+    });
+
+    // Cleanup listener on unmount
+    return () => {
+      socket.off("notification");
+    };
+  }, [dispatch, isAuth, user]);
 
   if (authLoading) {
     return <Loader text='Checking auth' />
@@ -54,6 +85,7 @@ function App () {
       <NavBar />
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/about' element={<AboutPage/>}/>
         <Route path='/blogs' element={<BlogPage />} />
         <Route path='/blog/:id' element={<BlogDetails />} />
         <Route

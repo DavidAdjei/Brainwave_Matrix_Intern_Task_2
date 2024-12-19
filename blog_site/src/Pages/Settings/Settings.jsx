@@ -17,7 +17,10 @@ const Settings = ({
   const dispatch = useDispatch()
 
   const [preferences, setPreferences] = useState({
-    notifications: user?.preferences?.notifications,
+    comments: user?.preferences?.comments,
+    likes: user?.preferences?.likes,
+    newBlogs: user?.preferences?.newBlogs,
+    follower: user?.preferences?.follower,
     emails: user?.preferences?.emails,
     newsletter: user?.preferences?.newsletter
   })
@@ -83,12 +86,45 @@ const Settings = ({
           <div className='preferences'>
             <h2>Preferences</h2>
             <div className='preference-item'>
-              Notifications
+              Comments Notifications
               <label className='toggle-switch'>
                 <input
                   type='checkbox'
-                  checked={preferences.notifications}
-                  onChange={() => handlePreferenceToggle('notifications')}
+                  checked={preferences.comments}
+                  onChange={() => handlePreferenceToggle('comments')}
+                />
+                <span className='slider'></span>
+              </label>
+            </div>
+            <div className='preference-item'>
+              Likes Notifications
+              <label className='toggle-switch'>
+                <input
+                  type='checkbox'
+                  checked={preferences.likes}
+                  onChange={() => handlePreferenceToggle('likes')}
+                />
+                <span className='slider'></span>
+              </label>
+            </div>
+            <div className='preference-item'>
+              New Blogs Notifications
+              <label className='toggle-switch'>
+                <input
+                  type='checkbox'
+                  checked={preferences.newBlogs}
+                  onChange={() => handlePreferenceToggle('newBlogs')}
+                />
+                <span className='slider'></span>
+              </label>
+            </div>
+            <div className='preference-item'>
+              Followers Notifications
+              <label className='toggle-switch'>
+                <input
+                  type='checkbox'
+                  checked={preferences.follower}
+                  onChange={() => handlePreferenceToggle('follower')}
                 />
                 <span className='slider'></span>
               </label>

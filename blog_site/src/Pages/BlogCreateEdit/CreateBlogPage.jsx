@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { createBlog } from "../../Redux/blogs/thunks";
 import axios from "axios";
 import {tags as availableTags, categories} from "../../Utils/utils"
+import Loader from "../../features/Loader"
 
 const CreateBlogPage = () => {
   const [title, setTitle] = useState("");
@@ -12,6 +13,7 @@ const CreateBlogPage = () => {
   const [tags, setTags] = useState([]);
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleTagToggle = (tag) => {
@@ -26,6 +28,7 @@ const CreateBlogPage = () => {
 
   const handleUpload = async (formdata) => {
     return new Promise( async (resolve, reject) => {
+      setImageLoading(true);
       try{
         const {data} = await axios.post(`/blogs/upload`, formdata, {
           headers: {
@@ -33,8 +36,10 @@ const CreateBlogPage = () => {
           }
         });
         console.log({data});
+        setImageLoading(false);
         resolve(data.imageUrl);
       }catch(err){
+        setImageLoading(false);
         reject(err.response?.data.error || err.message)
       }
     })
@@ -62,6 +67,13 @@ const CreateBlogPage = () => {
     console.log("Blog Submitted:", { title, category, tags, content, image });
 
   };
+
+
+  if(imageLoading){
+    return(
+      <Loader text="Uploading Image..."/>
+    )
+  }
 
   return (
     <div className="create-blog-page">

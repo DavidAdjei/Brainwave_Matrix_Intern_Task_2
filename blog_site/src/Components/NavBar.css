@@ -7,41 +7,41 @@
     color: #fff;
   }
 
-  .nav-right{
+  .nav-right {
     display: flex;
     align-items: center;
     gap: 1rem;
   }
-  
+
   .logo {
     font-size: 1.5rem;
-    font-weight: bold;    
+    font-weight: bold;
   }
 
-  .logo:hover{
+  .logo:hover {
     cursor: pointer;
     color: #bab9b9;
   }
-  
+
   .nav-links {
     display: flex;
     gap: 20px;
     list-style: none;
   }
-  
+
   .nav-links li {
     cursor: pointer;
   }
 
-  .nav-links li a{
+  .nav-links li a {
     color: #f5efef;
   }
-  
-  .nav-links li a:hover{
+
+  .nav-links li a:hover {
     color: #bab9b9;
   }
 
-  .nav-links li .active{
+  .nav-links li .active {
     color: #969595;
     font-weight: 700;
     border-bottom: 2px solid #969595;
@@ -49,12 +49,12 @@
   }
 
   .auth-buttons,
-  .mobile-buttons{
+  .mobile-buttons {
     display: flex;
     gap: 1rem;
     align-items: center;
   }
-  
+
   .auth-buttons button {
     padding: 8px 16px;
     border: none;
@@ -63,29 +63,63 @@
     cursor: pointer;
   }
 
-  .create{
+  .create {
     background-color: transparent;
     color: white;
     border: 1px solid white;
   }
 
-  .auth-buttons .create:hover{
+  .notification {
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    color: white;
+    cursor: pointer;
+  }
+
+  .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 0.7em;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  .notification:hover {
+    color: rgb(106, 103, 103);
+    border-color: rgb(106, 103, 103);
+  }
+
+  .auth-buttons .create:hover {
     background-color: transparent;
     color: blue;
     border: 1px solid blue;
   }
-  
-  
+
+
   .auth-buttons .signup {
     background-color: white;
     color: #ff3d54;
   }
 
   .auth-buttons .signup:hover {
-    background-color: #ff3d54 ;
+    background-color: #ff3d54;
     color: white;
   }
-  
+
   .auth-buttons .login {
     background: none;
     color: white;
@@ -96,19 +130,19 @@
     color: rgb(187, 185, 185);
   }
 
-  .profile{
+  .profile {
     display: flex;
     align-items: center;
     gap: .5rem;
     color: white;
   }
 
-  .profile:hover{
+  .profile:hover {
     cursor: pointer;
     color: blue;
   }
 
-  .profile svg{
+  .profile svg {
     border: 1px solid white;
     border-radius: 50%;
     background-color: #dce1e1;
@@ -116,8 +150,8 @@
     height: 1.5rem;
     padding: 1px;
   }
-  
-  .menu{
+
+  .mobile-actions {
     display: none;
   }
 
@@ -139,22 +173,22 @@
     transition: transform 0.4s ease-in-out;
     z-index: 100;
   }
-  
+
   .mobile-links.slide-in {
     transform: translateX(0);
   }
-  
+
   .mobile-links.slide-out {
     transform: translateX(100%);
   }
-  
+
   .mobile-links .userInfo {
     display: flex;
     align-items: center;
     gap: 1rem;
     color: #ffcc00;
   }
-  
+
   .mobile-links .userInfo svg {
     border: 2px solid #ffcc00;
     border-radius: 50%;
@@ -162,7 +196,7 @@
     background-color: #444;
     padding: 1px;
   }
-  
+
   .mobile-links .create,
   .close {
     padding: 10px 20px;
@@ -175,45 +209,45 @@
     border: 2px solid #1e90ff;
   }
 
-  .close{
+  .close {
     background-color: red;
     color: white;
     border-color: red;
   }
 
-  .close:hover{
+  .close:hover {
     border-color: white;
     background-color: white;
     color: red;
   }
-  
+
   .mobile-links .create:hover {
     background-color: #1e90ff;
     color: white;
   }
-  
+
   .mobile-links li {
     list-style: none;
     width: 100%;
     text-align: center;
     padding: 10px 0;
   }
-  
+
   .mobile-links li a {
     text-decoration: none;
     color: white;
     font-size: 18px;
   }
-  
+
   .mobile-links li a:hover {
     color: #1e90ff;
   }
-  
+
   .mobile-buttons {
     display: flex;
     gap: 1rem;
   }
-  
+
   .mobile-buttons button {
     padding: 10px 20px;
     border: none;
@@ -221,38 +255,48 @@
     font-size: 16px;
     cursor: pointer;
   }
-  
+
   .mobile-buttons .login {
     background-color: transparent;
     color: white;
     border: 2px solid white;
   }
-  
+
   .mobile-buttons .login:hover {
     background-color: white;
     color: #1a1a2e;
   }
-  
+
   .mobile-buttons .signup {
     background-color: #1e90ff;
     color: white;
   }
-  
+
   .mobile-buttons .signup:hover {
     background-color: #1a1a2e;
     color: #1e90ff;
     border: 2px solid #1e90ff;
   }
-  
+
   @media screen and (max-width: 580px) {
-    .menu {
-      display: block;
+    .mobile-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
     }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
     .nav-links {
       display: none;
     }
+
     .auth-buttons {
       display: none;
     }
   }
-  

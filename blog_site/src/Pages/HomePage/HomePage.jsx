@@ -3,8 +3,9 @@ import "./HomePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowRight, User, Edit } from "lucide-react";
-import {verifyUser} from '../../Redux/auth/thunks'
+import { ArrowRight, User } from "lucide-react";
+import {verifyUser} from '../../Redux/auth/thunks';
+
 export default function HomePage() {
   const { isAuth, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -22,10 +23,6 @@ export default function HomePage() {
 
   const onButtonClick = (page) => {
     navigate(`/${page}`);
-  };
-
-  const onEditClick = (blogId) => {
-    navigate(`/edit/${blogId}`);
   };
 
   return (
@@ -63,15 +60,6 @@ export default function HomePage() {
         <div className="main-content">
           {blogs.map((blog) => (
             <div key={blog._id} className="blog-post">
-              <div className="blog-post-header">
-                {user && blog.author._id === user._id && (
-                  <Edit
-                    className="edit-icon"
-                    size={20}
-                    onClick={() => onEditClick(blog._id)}
-                  />
-                )}
-              </div>
               <img src={blog.image} alt={blog.title} />
               <div className="content">
                 <h2>{blog.title}</h2>
