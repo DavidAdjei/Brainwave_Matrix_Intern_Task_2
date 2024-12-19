@@ -24,8 +24,7 @@ const SignUp = () => {
   useEffect(() => {
     if (window.google) {
       window.google.accounts.id.initialize({
-        client_id:
-          '567170483864-6dbt5mj4bhcheppu4jead2ks9lthjojn.apps.googleusercontent.com',
+        client_id: process.env.REACT_APP_CLIENT_ID,
         callback: handleGoogleCallback
       })
       window.google.accounts.id.renderButton(

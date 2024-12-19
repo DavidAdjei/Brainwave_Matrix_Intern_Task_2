@@ -7,8 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import store from './Redux/store';
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://172.20.10.3:8000/api/v1';
-// axios.defaults.baseURL = "http://192.168.0.161:8000/api/v1"
+axios.defaults.baseURL = process.env.REACT_APP_SERVER;
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

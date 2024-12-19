@@ -9,6 +9,7 @@
     "blog_site": "file:",
     "cra-template": "1.2.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.468.0",
     "react": "^19.0.0",
