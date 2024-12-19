@@ -77,7 +77,7 @@ const ProfilePage = () => {
 
 
   if (loading) {
-    <Loader text="Just a moment" />
+    <Loader text="Just a moment..." />
   }
   return (
     <div className="profile-page">

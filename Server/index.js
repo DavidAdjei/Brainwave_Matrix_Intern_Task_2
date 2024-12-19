@@ -50,18 +50,17 @@ app.use(cors(corsOptions));
 
 const io = new Server(server, {
   cors: {
-    origin: function (origin, callback) {
-      if (!origin || whitelist.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.error(`Blocked by CORS for Socket.IO: ${origin}`);
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: ['GET', 'POST'],
+    origin: [
+      "http://localhost:3000",
+      "https://your-production-domain.com",
+      "http://172.20.10.3:3000",
+    ],
+    methods: ["GET", "POST"],
     credentials: true,
   },
+  transports: ["websocket"], // Ensure the server uses WebSocket
 });
+
 
 io.on("connection", (socket) => {
   console.log("A user connected: ", socket.id);
@@ -80,11 +79,6 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/blogs', blogRoutes);
 app.use('/api/v1/comments', commentRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
-
-// Jobs
-// Ensure the scheduled job runs
-// checkOverdueTasks;
-// dueDateNotification;
 
 // Start the server
 server.listen(port, () => console.log(`Server running on port ${port}`));

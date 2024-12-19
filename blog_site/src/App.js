@@ -20,8 +20,11 @@ import ForgotPassword from './Pages/Auth/ForgotPassword'
 import { io } from 'socket.io-client'
 import AboutPage from './Pages/AboutPage/AboutPage'
 
-const socket = io("http://172.20.10.3:8000");
-
+const socket = io(process.env.REACT_APP_SERVER, {
+  transports: ["websocket"], 
+  reconnectionAttempts: 5,  
+  timeout: 10000,
+});
 // axios.defaults.baseURL = 'http://172.20.10.3:8000/api/v1';
 // axios.defaults.baseURL = "http://192.168.0.161:8000/api/v1"
 
