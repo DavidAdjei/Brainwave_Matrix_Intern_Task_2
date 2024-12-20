@@ -196,4 +196,7 @@
     .blog-post {
       width: 95%;
     }
+    .blog-post img {
+      height: 350px;
+    }
   }

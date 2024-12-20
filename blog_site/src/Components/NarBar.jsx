@@ -91,17 +91,19 @@ export default function NavBar () {
         </div>
       )}
       <div className='mobile-actions'>
-        <div
-          className='notification'
-          onClick={() => setNotificationsOpen(!notificationsOpen)}
-        >
-          <Bell size={20} />
-          {notifications.filter(n => !n.read).length > 0 && (
-            <span className='badge'>
-              {notifications.filter(n => !n.read).length}
-            </span>
-          )}
-        </div>
+        {isAuth && (
+          <div
+            className='notification'
+            onClick={() => setNotificationsOpen(!notificationsOpen)}
+          >
+            <Bell size={20} />
+            {notifications.filter(n => !n.read).length > 0 && (
+              <span className='badge'>
+                {notifications.filter(n => !n.read).length}
+              </span>
+            )}
+          </div>
+        )}
         <div className='menu' onClick={() => setMenuOpen(true)}>
           <MenuIcon onClick={() => setMenuOpen(true)} />
         </div>
