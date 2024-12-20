@@ -88,7 +88,7 @@ body {
     color: #fff;
     display: flex;
     justify-content: flex-end;
-    position: relative; /* Enables absolute positioning for children */
+    position: relative;
 }
 
 .phone-section {
@@ -112,7 +112,7 @@ body {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
-    z-index: 2; /* Keeps the text content above the phone image */
+    z-index: 2; 
     padding: 4rem;
 }
 

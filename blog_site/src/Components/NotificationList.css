@@ -50,12 +50,12 @@
 }
 
 .notification-item.unread {
-  background-color: #c6e0f5; /* Light blue background for unread */
+  background-color: #c6e0f5;
   font-weight: bold;
 }
 
 .notification-item.read {
-  background-color: #ffffff; /* White background for read */
+  background-color: #ffffff;
   font-weight: normal;
 }
 

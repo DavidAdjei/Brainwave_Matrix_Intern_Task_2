@@ -22,7 +22,7 @@ import AboutPage from './Pages/AboutPage/AboutPage'
 
 const socket = io(process.env.REACT_APP_SERVER, {
   transports: ["websocket"], 
-  reconnectionAttempts: 5,  
+  reconnectionAttempts: 2,  
   timeout: 10000,
 });
 
@@ -56,14 +56,10 @@ function App () {
     socket.on("notification", (notification) => {
       if(isAuth){
         if(notification.userId === user._id){
-          console.log(true);
           const token = localStorage.getItem("userToken");
           dispatch(fetchNotifications(token));
-        }else{
-          console.log(false);
         }
       }
-      console.log("Notification received:", notification);
     });
     return () => {
       socket.off("notification");

@@ -98,7 +98,7 @@ const BlogDetails = () => {
     const token = localStorage.getItem('userToken')
     if (token) {
       dispatch(deleteBlog(id, token)).then(() => {
-        navigate('/') // Navigate back to the home page after deletion
+        navigate('/') 
       })
     }
   }
@@ -108,7 +108,7 @@ const BlogDetails = () => {
   }
 
   if (loading) {
-    ;<Loader text={`Loading details...`} />
+    <Loader text={`Loading details...`} />
   }
 
   return (
@@ -199,7 +199,7 @@ const BlogDetails = () => {
                 </strong>{' '}
                 {comment.comment}
                 <br />
-                <small style={{textTransform: "capitalize"}}>
+                <small style={{ textTransform: 'capitalize' }}>
                   {formatDistanceToNow(new Date(comment.createdAt), {
                     addSuffix: true
                   })}

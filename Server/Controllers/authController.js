@@ -4,9 +4,8 @@ import {
   sendResetEmail,
   sendVerificationEmail
 } from '../Utils/auth.js'
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 import { sendNotification } from '../Utils/notifications.js'
-
 
 const register = async (req, res) => {
   try {
@@ -40,7 +39,7 @@ const login = async (req, res) => {
     user.lastSignIn = now
     await user.save()
 
-    const token = generateToken(user, 'auth', '1d')
+    const token = generateToken(user, 'auth', '3d')
     user.password = undefined
     res.status(200).json({ user, token })
   } catch (error) {
@@ -85,7 +84,7 @@ const googleAuth = async (req, res) => {
     user.password = undefined
     user.secret = undefined
 
-    const token = generateToken(user, 'auth', '1d')
+    const token = generateToken(user, 'auth', '3d')
 
     res.status(200).json({ user, token })
   } catch (error) {
@@ -173,7 +172,6 @@ const followUser = async (req, res) => {
     if (!userToFollow) throw new Error('User to follow not found')
 
     if (user.following.includes(userToFollowId)) {
-      console.log('Already following')
       user.following = user.following.filter(
         id => id.toString() !== userToFollowId.toString()
       )
@@ -183,14 +181,13 @@ const followUser = async (req, res) => {
       await user.save()
       await userToFollow.save()
     } else {
-      console.log('Following')
       user.following.unshift(userToFollowId)
       userToFollow.followers.unshift(userId)
-      await user.save();
-      await userToFollow.save();
-      const io = req.app.get("socketio");
-      const message = `${user.firstName} ${user.lastName} just followed you`;
-      sendNotification(userToFollow._id, message, "follower", user._id, io);
+      await user.save()
+      await userToFollow.save()
+      const io = req.app.get('socketio')
+      const message = `${user.firstName} ${user.lastName} just followed you`
+      sendNotification(userToFollow._id, message, 'follower', user._id, io)
     }
     return res.json({ message: 'Followed' })
   } catch (err) {
@@ -343,7 +340,6 @@ const resetPassword = async (req, res) => {
   try {
     const { token } = req.params
     const { password } = req.body
-    console.log({ password })
 
     if (!token) {
       return res.status(400).json({ error: 'Token is required' })

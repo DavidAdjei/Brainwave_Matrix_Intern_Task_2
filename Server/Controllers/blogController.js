@@ -31,11 +31,11 @@ const addBlog = async (req, res) => {
 
     if (newBlog) {
       const message = `${user.firstName} ${user.lastName} post a new blog post ${newBlog.title} Check it out.`
-      const io = req.app.get("socketio");
-      user.followers.forEach((follower) => {
-        console.log({follower, blogId: newBlog._id})
-        sendNotification(follower, message, 'newBlogs', newBlog._id, io);
-      });
+      const io = req.app.get('socketio')
+      user.followers.forEach(follower => {
+        console.log({ follower, blogId: newBlog._id })
+        sendNotification(follower, message, 'newBlogs', newBlog._id, io)
+      })
     }
 
     return res.status(201).json({ message: 'Blog added successfully.' })
@@ -144,7 +144,6 @@ const uploadImage = async (req, res) => {
     if (!imageUrl) {
       return res.status(404).json({ error: 'Failed to upload image' })
     }
-    console.log({ imageUrl })
     return res.status(200).json({ imageUrl })
   } catch (err) {
     console.log(err)
@@ -171,7 +170,7 @@ const likeBlog = async (req, res) => {
       await blog.save()
       const user = await User.findById(userId)
       const postOwnerId = blog.author._id
-      const io = req.app.get("socketio");
+      const io = req.app.get('socketio')
       const message = `${user.firstName} ${user.lastName} just liked your blog!`
       sendNotification(postOwnerId, message, 'likes', blog._id, io)
 
@@ -195,7 +194,6 @@ const saveBlog = async (req, res) => {
     if (!user) throw new Error('User not found')
 
     if (user.savedBlogs.includes(id)) {
-      console.log('Already saved')
       var savedBlogs = user.savedBlogs.filter(
         blogId => blogId.toString() !== id.toString()
       )
@@ -203,7 +201,6 @@ const saveBlog = async (req, res) => {
       user.savedBlogs = savedBlogs
       await user.save()
     } else {
-      console.log('Now saving')
       user.savedBlogs.unshift(id)
       await user.save()
     }

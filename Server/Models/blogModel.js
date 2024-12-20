@@ -26,7 +26,7 @@ const BlogSchema = new Schema(
       type: [String],
     },
     image: {
-      type: String, // URL to the blog image (e.g., hosted on Cloudinary)
+      type: String, 
     },
     likes: [
       {

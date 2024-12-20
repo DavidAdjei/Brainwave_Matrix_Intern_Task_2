@@ -12,7 +12,6 @@ const AboutPage = () => {
 
   return (
     <div className='about-page'>
-      {/* Hero Section */}
       <section className='hero-container'>
         <div className='hero-content'>
           <h1>A modern publishing platform</h1>
@@ -30,7 +29,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <h1 className='future-heading'>Designs for the future</h1>
       <section className='features future'>
         <h1>Designs for the future</h1>
@@ -53,7 +51,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Infrastructure Section */}
       <section className='infrastructure'>
         <div className='phone-section'></div>
         <div className='infrastructure-content'>
@@ -66,7 +63,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Simple and Powerful Section */}
       <section className='simple-powerful'>
         <div className='simple'>
           <div className='simple-content'>

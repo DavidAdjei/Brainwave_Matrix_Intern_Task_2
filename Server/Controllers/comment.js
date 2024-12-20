@@ -37,7 +37,7 @@ const newComment = async (req, res) => {
 
     if (!newComment) throw new Error('Failed to add comment')
 
-    const commentowner = await User.findById(userId);
+    const commentowner = await User.findById(userId)
     const io = req.app.get('socketio')
     const message = `${commentowner.firstName} ${commentowner.lastName} commented on your post: "${comment}"`
     sendNotification(
@@ -49,7 +49,7 @@ const newComment = async (req, res) => {
     )
     return res.status(200).json({ message: 'Comment added' })
   } catch (err) {
-    console.log(err);
+    console.log(err)
     res.status(400).json({ error: err.message })
   }
 }

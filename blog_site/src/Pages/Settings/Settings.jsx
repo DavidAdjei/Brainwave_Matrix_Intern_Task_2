@@ -34,7 +34,6 @@ const Settings = ({
 
   const handleSave = () => {
     const token = localStorage.getItem('userToken')
-    console.log({ preferences })
     dispatch(updatePreferences(token, preferences)).then(res => {
       console.log({ res })
       dispatch(

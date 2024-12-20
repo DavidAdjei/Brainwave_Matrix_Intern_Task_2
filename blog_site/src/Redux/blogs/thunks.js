@@ -1,114 +1,137 @@
-import { setUser } from "../auth/actions";
-import { setAllBlogs, setBlogError, setBlogLoading } from "./action";
-import axios from "axios"
+import { setUser } from '../auth/actions'
+import { setAllBlogs, setBlogError, setBlogLoading } from './action'
+import axios from 'axios'
 
-export const fetchAllBlogs = () => async (dispatch) => {
+export const fetchAllBlogs = () => async dispatch => {
   dispatch(setBlogLoading(true))
   try {
-    const { data } = await axios.get("/blogs");
-    dispatch(setAllBlogs(data.blogs));
-    dispatch(setBlogLoading(false));
+    const { data } = await axios.get('/blogs')
+    dispatch(setAllBlogs(data.blogs))
+    dispatch(setBlogLoading(false))
   } catch (error) {
-    const message = error.response?.data?.error || 'Login failed';
-    dispatch(setBlogError(message));
-    dispatch(setBlogLoading(false));
+    const message = error.response?.data?.error || 'Login failed'
+    dispatch(setBlogError(message))
+    dispatch(setBlogLoading(false))
   }
 }
 
-export const createBlog = (blog, token) => async (dispatch) => {
+export const createBlog = (blog, token) => async dispatch => {
   try {
-    dispatch(setBlogLoading(true));
-    await axios.post(`/blogs`, { blog }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(fetchAllBlogs());
+    dispatch(setBlogLoading(true))
+    await axios.post(
+      `/blogs`,
+      { blog },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    dispatch(fetchAllBlogs())
   } catch (error) {
-    const message = error.response?.data?.error || error.message || "Failed to create blog.";
-    dispatch(setBlogError(message));
+    const message =
+      error.response?.data?.error || error.message || 'Failed to create blog.'
+    dispatch(setBlogError(message))
   } finally {
-    dispatch(setBlogLoading(false));
+    dispatch(setBlogLoading(false))
   }
-};
+}
 
-export const updateBlog = (id, blog, token) => async (dispatch) => {
+export const updateBlog = (id, blog, token) => async dispatch => {
   try {
-    dispatch(setBlogLoading(true));
-    await axios.put(`/blogs/${id}`, { blog }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(fetchAllBlogs());
+    dispatch(setBlogLoading(true))
+    await axios.put(
+      `/blogs/${id}`,
+      { blog },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    dispatch(fetchAllBlogs())
   } catch (error) {
-    const message = error.response?.data?.error || error.message || "Failed to create blog.";
-    dispatch(setBlogError(message));
+    const message =
+      error.response?.data?.error || error.message || 'Failed to create blog.'
+    dispatch(setBlogError(message))
   } finally {
-    dispatch(setBlogLoading(false));
+    dispatch(setBlogLoading(false))
   }
-};
+}
 
-export const deleteBlog = (id, token) => async (dispatch) => {
+export const deleteBlog = (id, token) => async dispatch => {
   try {
-    dispatch(setBlogLoading(true));
+    dispatch(setBlogLoading(true))
     await axios.delete(`/blogs/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(fetchAllBlogs());
+        Authorization: `Bearer ${token}`
+      }
+    })
+    dispatch(fetchAllBlogs())
   } catch (error) {
-    const message = error.response?.data?.error || error.message || "Failed to create blog.";
-    dispatch(setBlogError(message));
+    const message =
+      error.response?.data?.error || error.message || 'Failed to create blog.'
+    dispatch(setBlogError(message))
   } finally {
-    dispatch(setBlogLoading(false));
+    dispatch(setBlogLoading(false))
   }
-};
+}
 
-export const newComment = (comment, blog, token) => async (dispatch) => {
+export const newComment = (comment, blog, token) => async dispatch => {
   try {
-    dispatch(setBlogLoading(true));
-    await axios.post(`/comments/${blog}`, { comment }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(fetchAllBlogs());
+    dispatch(setBlogLoading(true))
+    await axios.post(
+      `/comments/${blog}`,
+      { comment },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    dispatch(fetchAllBlogs())
   } catch (error) {
-    const message = error.response?.data?.error || error.message;
-    dispatch(setBlogError(message));
+    const message = error.response?.data?.error || error.message
+    dispatch(setBlogError(message))
   } finally {
-    dispatch(setBlogLoading(false));
+    dispatch(setBlogLoading(false))
   }
-};
+}
 
-export const likeBlog = (blog, token) => async (dispatch) => {
+export const likeBlog = (blog, token) => async dispatch => {
   try {
-    await axios.put(`/blogs/like/${blog}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(fetchAllBlogs());
+    await axios.put(
+      `/blogs/like/${blog}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    dispatch(fetchAllBlogs())
   } catch (error) {
-    const message = error.response?.data?.error || error.message;
-    dispatch(setBlogError(message));
+    const message = error.response?.data?.error || error.message
+    dispatch(setBlogError(message))
   } finally {
-    dispatch(setBlogLoading(false));
+    dispatch(setBlogLoading(false))
   }
-};
+}
 
-export const saveBlog = (blog, token) => async (dispatch) => {
+export const saveBlog = (blog, token) => async dispatch => {
   try {
-    const { data } = await axios.put(`/blogs/save/${blog}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(setUser(data.user));
+    const { data } = await axios.put(
+      `/blogs/save/${blog}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    dispatch(setUser(data.user))
   } catch (error) {
-    const message = error.response?.data?.error || error.message;
-    dispatch(setBlogError(message));
+    const message = error.response?.data?.error || error.message
+    dispatch(setBlogError(message))
   }
-};
+}

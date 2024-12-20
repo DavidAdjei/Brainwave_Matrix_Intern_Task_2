@@ -197,7 +197,7 @@ export const forgotPassword = email => async dispatch => {
   }
 }
 
-export const resetPassword = (token, password) => async (dispatch) => {
+export const resetPassword = (token, password) => async dispatch => {
   dispatch(setAuthLoading(true))
   try {
     const { data } = await axios.put(`/auth/reset-password/${token}`, {
@@ -213,34 +213,36 @@ export const resetPassword = (token, password) => async (dispatch) => {
   }
 }
 
-export const fetchNotifications = (token) => async (dispatch) => {
+export const fetchNotifications = token => async dispatch => {
   try {
     const { data } = await axios.get(`/notifications`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    });
-    dispatch(setNotifications(data.notifications));
+    })
+    dispatch(setNotifications(data.notifications))
   } catch (error) {
-    const message =
-      error.response?.data?.error || error.message
+    const message = error.response?.data?.error || error.message
     dispatch(setAuthError(message))
   } finally {
     dispatch(setAuthLoading(false))
   }
 }
 
-export const readNotification = (token, id) => async (dispatch) => {
+export const readNotification = (token, id) => async dispatch => {
   try {
-    await axios.put(`/notifications/${id}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    await axios.put(
+      `/notifications/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    });
-    dispatch(fetchNotifications(token));
+    )
+    dispatch(fetchNotifications(token))
   } catch (error) {
-    const message =
-      error.response?.data?.error || error.message
+    const message = error.response?.data?.error || error.message
     dispatch(setAuthError(message))
   } finally {
     dispatch(setAuthLoading(false))
