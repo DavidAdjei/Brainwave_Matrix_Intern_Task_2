@@ -29,7 +29,7 @@ app.use(urlencoded({ extended: false }));
 // CORS Configuration
 const whitelist = [
   'http://localhost:3000',
-  'https://your-production-domain.com',
+  'https://blogrwebui.vercel.app',
   "http://172.20.10.3:3000",
 ];
 
@@ -52,7 +52,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:3000",
-      "https://your-production-domain.com",
+      "https://blogrwebui.vercel.app",
       "http://172.20.10.3:3000",
     ],
     methods: ["GET", "POST"],
