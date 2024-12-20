@@ -71,7 +71,7 @@ function App () {
   }
 
   if (loading) {
-    return <Loader text='Checking blogs' />
+    return <Loader text='Blogs loading' />
   }
 
   return (

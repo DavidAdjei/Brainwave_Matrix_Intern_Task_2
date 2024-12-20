@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { updateBlog } from '../../Redux/blogs/thunks'
 import axios from 'axios'
 import { tags as availableTags, categories } from '../../Utils/utils'
+import { Loader } from 'lucide-react'
 
 const EditBlogPage = () => {
   const { blogId } = useParams()
@@ -17,6 +18,8 @@ const EditBlogPage = () => {
   const [tags, setTags] = useState([])
   const [content, setContent] = useState('')
   const [image, setImage] = useState(null)
+    const [imageLoading, setImageLoading] = useState(false)
+
   const [currentImage, setCurrentImage] = useState('')
   const navigate = useNavigate()
 
@@ -48,14 +51,17 @@ const EditBlogPage = () => {
 
   const handleUpload = async formData => {
     return new Promise(async (resolve, reject) => {
+      setImageLoading(true)
       try {
         const { data } = await axios.post(`/blogs/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
+        setImageLoading(false)
         resolve(data.imageUrl)
       } catch (err) {
+        setImageLoading(false)
         reject(err.response?.data.error || err.message)
       }
     })
@@ -90,8 +96,12 @@ const EditBlogPage = () => {
     )
   }
 
+  if (imageLoading) {
+    return <Loader text='Uploading Image...' />
+  }
+
   if (!blog) {
-    return <div>Loading...</div>
+    return <Loader text='Getting blog...' />
   }
 
   return (
