@@ -7,7 +7,7 @@ import { tags, categories } from "../../Utils/utils";
 
 export default function BlogPage() {
   const { generalBlogs } = useSelector(state => state.blogs);
-  const { isAuth, user } = useSelector(state => state.auth); // Assuming `auth` state has login info
+  const { isAuth, user } = useSelector(state => state.auth); 
   const [searchParams] = useSearchParams();
   const [blogs, setBlogs] = useState(generalBlogs)
   const [searchQuery, setSearchQuery] = useState("");
@@ -73,7 +73,7 @@ export default function BlogPage() {
       <button className="menu-toggle" onClick={() => setMenuOpen(true)}>
         <Menu size={24} /> Filters
       </button>
-      <aside className={`sidebar ${menuOpen ? "open" : ""}`}>
+      <aside className={`sidebar ${menuOpen ? "open" : undefined}`}>
         {menuOpen && (
           <button className="menu-close" onClick={() => setMenuOpen(false)}>
             <X size={24}/> Close
@@ -109,14 +109,14 @@ export default function BlogPage() {
         {/* Tabs */}
         <div className="tabs">
           <button
-            className={`tab ${activeTab === "discover" ? "active" : ""}`}
+            className={`tab ${activeTab === "discover" ? "active" : undefined}`}
             onClick={() => handleSwitch("discover")}
           >
             Discover
           </button>
           {isAuth && (
             <button
-              className={`tab ${activeTab === "following" ? "active" : ""}`}
+              className={`tab ${activeTab === "following" ? "active" : undefined}`}
               onClick={() => handleSwitch("following")}
             >
               Following
