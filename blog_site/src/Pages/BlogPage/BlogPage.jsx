@@ -50,9 +50,9 @@ export default function BlogPage() {
   };
 
   function getBlogsFromFollowing(blogs, following) {
-    const followingIds = following.map(user => user._id);
+    const followingIds = following?.map(user => user._id);
   
-    const filteredBlogs = blogs.filter(blog => followingIds.includes(blog.author._id));
+    const filteredBlogs = blogs?.filter(blog => followingIds.includes(blog.author._id));
   
     return filteredBlogs;
   }
@@ -62,7 +62,7 @@ export default function BlogPage() {
       setBlogs(generalBlogs);
       setActiveTab("discover");
     }else{
-      const newBlogs = getBlogsFromFollowing(generalBlogs, user.following);
+      const newBlogs = getBlogsFromFollowing(generalBlogs, user?.following);
       setBlogs(newBlogs);
       setActiveTab("following");
     }
@@ -146,7 +146,7 @@ export default function BlogPage() {
                         ) : (
                           <User className="profile-icon" />
                         )}
-                        <p>{user._id === blog.author._id ? "You" : `@${blog.author.username}`}</p>
+                        <p>{user?._id === blog.author._id ? "You" : `@${blog.author.username}`}</p>
                       </div>
                       <p>{blog.excerpt}</p>
                       <Link to={`/blog/${blog._id}`}>Read More</Link>
