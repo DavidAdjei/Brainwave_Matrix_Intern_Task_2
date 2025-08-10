@@ -91,7 +91,7 @@ export default function BlogPage() {
           <h3>Categories</h3>
           <ul>
             {categories.map(category => (
-              <li key={category}><Link to={`?category=${category}`}>{category}</Link></li>
+              <li key={category}><Link onClick={() => setMenuOpen(false)} to={`?category=${category}`}>{category}</Link></li>
             ))}
           </ul>
         </div>
@@ -99,7 +99,7 @@ export default function BlogPage() {
           <h3>Tags</h3>
           <div className="tag-list">
             {tags.map(tag => (
-              <Link key={tag} to={`?tag=${tag}`} className="tag">{tag}</Link>
+              <Link onClick={() => setMenuOpen(false)} key={tag} to={`?tag=${tag}`} className="tag">{tag}</Link>
             ))}
           </div>
         </div>
